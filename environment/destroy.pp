@@ -31,9 +31,3 @@ ec2_vpc_internet_gateway { $vpc:
   region => $::region,
   vpc    => $vpc,
 }
-
-ec2_vpc_routetable { $vpc:
-  ensure => absent,
-  region => $region,
-  vpc    => $vpc,
-}
