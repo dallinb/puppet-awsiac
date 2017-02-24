@@ -1,3 +1,8 @@
+---
+machine:
+  environment:
+    AWS_REGION: eu-west-1
+    FACTER_PREFIX: demo
 dependencies:
   override:
     - bundle install
@@ -6,3 +11,8 @@ test:
   override:
     - rubocop -DES
     - puppet-lint --fail-on-warnings .
+deployment:
+  demo-apply:
+    branch: demo-apply
+    commands:
+      FACTER_REGION=$AWS_REGION puppet apply environments/apply.pp --test 
