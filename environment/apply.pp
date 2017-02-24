@@ -15,7 +15,15 @@ $tags = {
 }
 
 ec2_vpc { $vpc:
+  ensure => present,
   region     => $::region,
   cidr_block => '10.0.0.0/16',
   tags       => $tags,
+}
+
+ec2_vpc_internet_gateway { $vpc:
+  ensure => present,
+  region => $::region,
+  vpc    => $vpc,
+  tags   => $tags,
 }
