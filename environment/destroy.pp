@@ -10,12 +10,6 @@ if $::region == undef {
 
 $vpc = regsubst(upcase("${prefix}${region}"), '-([A-Z]).*(\d+)$', '\1\2')
 
-ec2_vpc { $vpc:
-  ensure     => absent,
-  region     => $::region,
-  cidr_block => '10.0.0.0/16',
-}
-
 ec2_vpc_internet_gateway { $vpc:
   ensure => absent,
   region => $::region,
@@ -36,4 +30,10 @@ ec2_vpc_routetable { $vpc:
     },
   ],
   vpc    => $vpc,
+} ->
+ec2_vpc { $vpc:
+  ensure     => absent,
+  region     => $::region,
+  cidr_block => '10.0.0.0/16',
 }
+
