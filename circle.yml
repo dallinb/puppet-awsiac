@@ -15,4 +15,4 @@ deployment:
   demo-apply:
     branch: demo-apply
     commands:
-      - FACTER_REGION=$AWS_REGION puppet apply environments/apply.pp --test
+      - FACTER_REGION=$AWS_REGION puppet apply environment/apply.pp --test
