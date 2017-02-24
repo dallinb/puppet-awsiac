@@ -1,7 +1,7 @@
 if $::prefix == undef {
-  fail("You must specify a prefix.")
+  fail('You must specify a prefix.')
 }
 
 if $::region == undef {
-  fail("You must specify a region.")
+  fail('You must specify a region.')
 }
