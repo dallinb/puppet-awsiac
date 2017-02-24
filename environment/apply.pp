@@ -10,4 +10,12 @@ if $::region == undef {
 
 $vpc = regsubst(upcase("${prefix}${region}"), '-([A-Z]).*(\d+)$', '\1\2')
 
-notify { "Creating ${vpc}": }
+$tags = {
+  environment => $vpc,
+}
+
+ec2_vpc { $vpc:
+  region     => $::region,
+  cidr_block => '10.0.0.0/16',
+  tags       => $tags,
+}
