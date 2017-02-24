@@ -16,4 +16,4 @@ deployment:
   demo-apply:
     branch: demo-apply
     commands:
-      - bin/puppet_apply.sh
+      - bin/puppet_apply.sh environment/apply.pp
