@@ -7,6 +7,7 @@ dependencies:
   override:
     - bundle install
     - puppet module install puppetlabs-aws --version 1.4.0
+    - puppet module install puppetlabs-stdlib --version 4.15.0
 test:
   override:
     - rubocop -DES
