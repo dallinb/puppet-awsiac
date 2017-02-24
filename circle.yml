@@ -17,3 +17,7 @@ deployment:
     branch: demo-apply
     commands:
       - bin/puppet_apply.sh environment/apply.pp
+  demo-destroy:
+    branch: demo-destroy
+    commands:
+      - bin/puppet_apply.sh environment/destroy.pp
