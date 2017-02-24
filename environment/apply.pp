@@ -34,7 +34,7 @@ ec2_vpc_routetable { $vpc:
   routes => [
     {
       destination_cidr_block => '0.0.0.0/0',
-      gateway                => "${::environment}-igw",
+      gateway                => $vpc,
     },
     {
       destination_cidr_block => '10.0.0.0/16',
