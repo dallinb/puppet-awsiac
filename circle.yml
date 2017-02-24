@@ -1,0 +1,4 @@
+dependencies:
+  override:
+    - bundle install
+    - puppet module install puppetlabs-aws --version 1.4.0
