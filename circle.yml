@@ -4,6 +4,9 @@ machine:
     AWS_REGION: eu-west-1
     FACTER_PREFIX: demo
 dependencies:
+  cache_directories:
+    - .bundle
+    - .puppetlabs
   override:
     - bundle install
     - puppet module install puppetlabs-aws --version 1.4.0
