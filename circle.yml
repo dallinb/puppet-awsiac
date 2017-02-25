@@ -1,0 +1,26 @@
+---
+machine:
+  environment:
+    AWS_REGION: eu-west-1
+    FACTER_PREFIX: demo
+dependencies:
+  cache_directories:
+    - /home/ubuntu/.bundle
+    - /home/ubuntu/.puppetlabs
+  override:
+    - bundle install
+    - puppet module install puppetlabs-aws --version 1.4.0
+    - puppet module install puppetlabs-stdlib --version 4.15.0
+test:
+  override:
+    - rubocop -DES
+    - puppet-lint --fail-on-warnings .
+deployment:
+  demo-apply:
+    branch: demo-apply
+    commands:
+      - bin/puppet_apply.sh environment/apply.pp
+  demo-destroy:
+    branch: demo-destroy
+    commands:
+      - bin/puppet_apply.sh environment/destroy.pp
