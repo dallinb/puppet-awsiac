@@ -12,4 +12,6 @@ $vpc = regsubst(upcase("${prefix}${region}"), '-([A-Z]).*(\d+)$', '\1\2')
 
 ec2_vpc { $vpc:
   ensure     => absent,
+  region     => $::region,
+  cidr_block => '10.0.0.0/16',
 }
