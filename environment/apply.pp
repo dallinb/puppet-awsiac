@@ -35,12 +35,12 @@ ec2_vpc_routetable { $rtb:
   region => $region,
   routes => [
     {
-      destination_cidr_block => '0.0.0.0/0',
-      gateway                => $igw,
-    },
-    {
       destination_cidr_block => '10.0.0.0/16',
       gateway                => 'local'
+    },
+    {
+      destination_cidr_block => '0.0.0.0/0',
+      gateway                => $igw,
     },
   ],
   vpc    => $vpc,

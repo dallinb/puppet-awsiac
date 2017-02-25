@@ -5,8 +5,8 @@ machine:
     FACTER_PREFIX: demo
 dependencies:
   cache_directories:
-    - .bundle
-    - .puppetlabs
+    - /home/ubuntu/.bundle
+    - /home/ubuntu/.puppetlabs
   override:
     - bundle install
     - puppet module install puppetlabs-aws --version 1.4.0
