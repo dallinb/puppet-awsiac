@@ -21,7 +21,7 @@ ec2_vpc_internet_gateway { $igw:
   vpc    => $vpc,
 }
 
-ec2_vpc_routetable { [$vpc, $rtb]:
+ec2_vpc_routetable { $rtb:
   ensure => absent,
   region => $::region,
   vpc    => $vpc,
