@@ -9,6 +9,8 @@ if $::region == undef {
 }
 
 $vpc = regsubst(upcase("${prefix}${region}"), '-([A-Z]).*(\d+)$', '\1\2')
+$igw = "${vpc}-igw"
+$rtb = "${vpc}-rtb"
 
 $tags = {
   environment => downcase($vpc),
@@ -21,20 +23,20 @@ ec2_vpc { $vpc:
   tags       => $tags,
 }
 
-ec2_vpc_internet_gateway { $vpc:
+ec2_vpc_internet_gateway { $igw:
   ensure => present,
   region => $::region,
   vpc    => $vpc,
   tags   => $tags,
 }
 
-ec2_vpc_routetable { $vpc:
+ec2_vpc_routetable { $rtb:
   ensure => present,
   region => $region,
   routes => [
     {
       destination_cidr_block => '0.0.0.0/0',
-      gateway                => $vpc,
+      gateway                => $igw,
     },
     {
       destination_cidr_block => '10.0.0.0/16',
