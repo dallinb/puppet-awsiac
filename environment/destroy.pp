@@ -14,7 +14,7 @@ $vpc = regsubst(upcase("${prefix}${region}"), '-([A-Z]).*(\d+)$', '\1\2')
 $igw = "${vpc}-igw"
 
 ec2_vpc_internet_gateway { $igw:
-  ensure => present,
+  ensure => absent,
   region => $::region,
   vpc    => $vpc,
 }
