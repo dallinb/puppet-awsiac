@@ -5,22 +5,21 @@ compile:
 dependencies:
   override:
     - "bundle install"
-    - "puppet module install --verbose --target-dir=$MODULEPATH puppetlabs-aws"
-    - "puppet module install --verbose --target-dir=$MODULEPATH puppetlabs-stdlib"
+    - "puppet module install --verbose --target-dir=/home/ubuntu/modules puppetlabs-aws"
+    - "puppet module install --verbose --target-dir=/home/ubuntu/modules puppetlabs-stdlib"
 deployment:
   init:
     branch: /.*-init/
     commands:
       - "rm -rf /home/ubuntu/.puppetlabs/etc/code/modules/awsiac"
-      - "puppet module install --verbose  --target-dir=$MODULEPATH pkg/locp-awsiac-0.1.0.tar.gz"
+      - "puppet module install --verbose  --target-dir=/home/ubuntu/modules pkg/locp-awsiac-0.1.0.tar.gz"
       - "puppet module list --tree"
       - "puppet config print | sort"
       - "ls -l /home/ubuntu/.puppetlabs/etc/code/modules"
-      - "FACTER_ENSURE=present puppet apply --modulepath=$MODULEPATH --debug --test examples/init.pp"
+      - "FACTER_ENSURE=present puppet apply --modulepath=/home/ubuntu/modules --debug --test examples/init.pp"
 machine:
   environment:
     AWS_REGION: eu-west-2
-    MODULEPATH: /home/ubuntu/modules
 test:
   override:
     - "bundle exec rake release_checks"
