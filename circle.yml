@@ -1,26 +1,21 @@
 ---
 machine:
   environment:
-    AWS_REGION: eu-west-1
-    FACTER_PREFIX: demo
+    AWS_REGION: eu-west-2
 dependencies:
   cache_directories:
     - /home/ubuntu/.bundle
     - /home/ubuntu/.puppetlabs
   override:
     - bundle install
-    - puppet module install puppetlabs-aws --version 1.4.0
-    - puppet module install puppetlabs-stdlib --version 4.15.0
+compile:
+  override:
+    - bundle exec rake build
 test:
   override:
-    - rubocop -DES
-    - puppet-lint --fail-on-warnings .
+    - bundle exec rake release_checks
 deployment:
-  demo-apply:
-    branch: demo-apply
+  init:
+    branch: d1euw1-init
     commands:
-      - bin/puppet_apply.sh environment/apply.pp
-  demo-destroy:
-    branch: demo-destroy
-    commands:
-      - bin/puppet_apply.sh environment/destroy.pp
+      - FACTER_ENSURE=present puppet apply --test examples/site.pp
