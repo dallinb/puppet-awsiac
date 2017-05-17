@@ -1,27 +1,27 @@
 ---
-machine:
-  environment:
-    AWS_REGION: eu-west-2
+compile:
+  override:
+    - "bundle exec rake build"
 dependencies:
   cache_directories:
     - /home/ubuntu/.bundle
     - /home/ubuntu/.puppetlabs
   override:
-    - bundle install
-    - puppet module install --verbose puppetlabs-aws
-    - puppet module install --verbose puppetlabs-stdlib
-
-compile:
-  override:
-    - bundle exec rake build
-test:
-  override:
-    - bundle exec rake release_checks
+    - "bundle install"
+    - "puppet module install --verbose puppetlabs-aws"
+    - "puppet module install --verbose puppetlabs-stdlib"
 deployment:
   init:
     branch: /.*-init/
     commands:
-      - rm -rf /home/ubuntu/.puppetlabs/etc/code/modules/awsiac
-      - puppet module install --verbose pkg/locp-awsiac-0.1.0.tar.gz
-      - puppet module list --tree
-      - FACTER_ENSURE=present puppet apply --test examples/init.pp
+      - "rm -rf /home/ubuntu/.puppetlabs/etc/code/modules/awsiac"
+      - "puppet module install --verbose pkg/locp-awsiac-0.1.0.tar.gz"
+      - "puppet module list --tree"
+      - "puppet config print | sort"
+      - "FACTER_ENSURE=present puppet apply --test examples/init.pp"
+machine:
+  environment:
+    AWS_REGION: eu-west-2
+test:
+  override:
+    - "bundle exec rake release_checks"
