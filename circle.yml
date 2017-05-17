@@ -19,7 +19,7 @@ deployment:
       - "puppet module list --tree"
       - "puppet config print | sort"
       - "ls -l /home/ubuntu/.puppetlabs/etc/code/modules"
-      - "FACTER_ENSURE=present puppet apply --debug --test examples/init.pp"
+      - "FACTER_ENSURE=present puppet apply --modulepath=/home/ubuntu/.puppetlabs/etc/code/modules --debug --test examples/init.pp"
 machine:
   environment:
     AWS_REGION: eu-west-2
