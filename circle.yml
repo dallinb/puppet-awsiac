@@ -5,8 +5,8 @@ compile:
 dependencies:
   override:
     - "bundle install"
-    - "wget https://apt.puppetlabs.com/puppetlabs-release-pc1-$( facter lsbdistcodename ).deb"
-    - "sudo dpkg -i puppetlabs-release-pc1-$( facter lsbdistcodename ).deb"
+    - "wget https://apt.puppetlabs.com/puppetlabs-release-$( facter lsbdistcodename ).deb"
+    - "sudo dpkg -i puppetlabs-release-$( facter lsbdistcodename ).deb"
     - "sudo apt-get update"
     - "sudo apt-get install puppet"
     - "sudo puppet module install --verbose puppetlabs-aws"
