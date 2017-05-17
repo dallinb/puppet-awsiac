@@ -8,7 +8,7 @@ dependencies:
     - /home/ubuntu/.puppetlabs
   override:
     - bundle install
-    - rm -rf /home/ubuntu/.puppetlabs/etc/code/modules/awsiac
+    - rm -rf /home/ubuntu/.puppetlabs/etc/code/modules/awsiac /home/ubuntu/.puppetlabs/etc/code/modules/aws
     - puppet module install --verbose puppetlabs-aws --version 2.0.0
     - puppet module install --verbose puppetlabs-stdlib
 
