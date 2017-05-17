@@ -4,7 +4,7 @@ compile:
     - "bundle exec rake build"
 dependencies:
   override:
-    - "sudo apt-get install puppetlabs-aws"
+    - "sudo apt-get install puppet"
     - "sudo puppet module install --verbose puppetlabs-aws"
     - "bundle install"
     - "puppet module install --verbose --target-dir=/home/ubuntu/modules puppetlabs-stdlib"
