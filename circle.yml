@@ -5,7 +5,7 @@ compile:
 dependencies:
   override:
     - "bundle install"
-    - "puppet module install --verbose --target-dir=/home/ubuntu/modules puppetlabs-aws"
+    - "sudo puppet module install --verbose puppetlabs-aws"
     - "puppet module install --verbose --target-dir=/home/ubuntu/modules puppetlabs-stdlib"
 deployment:
   init:
