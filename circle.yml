@@ -4,7 +4,7 @@ compile:
     - "bundle exec rake build"
 dependencies:
   override:
-    - "bundle install"
+    - "bundle --verbose install"
     - "puppet module install --verbose --target-dir=$MODULEPATH puppetlabs-aws"
     - "puppet module install --verbose --target-dir=$MODULEPATH puppetlabs-stdlib"
 deployment:
