@@ -18,4 +18,4 @@ deployment:
   init:
     branch: d1euw1-init
     commands:
-      - FACTER_ENSURE=present puppet apply --test examples/site.pp
+      - FACTER_ENSURE=present puppet apply --test examples/init.pp
