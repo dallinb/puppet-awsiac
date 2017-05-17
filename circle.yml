@@ -8,7 +8,6 @@ dependencies:
     - /home/ubuntu/.puppetlabs
   override:
     - bundle install
-    - rm -rf /home/ubuntu/.puppetlabs/etc/code/modules/awsiac /home/ubuntu/.puppetlabs/etc/code/modules/aws
     - puppet module install --verbose puppetlabs-aws --version 2.0.0
     - puppet module install --verbose puppetlabs-stdlib
 
@@ -20,7 +19,8 @@ test:
     - bundle exec rake release_checks
 deployment:
   init:
-    branch: d1euw1-init
+    branch: /.*-init/
     commands:
+      - rm -rf /home/ubuntu/.puppetlabs/etc/code/modules/awsiac
       - puppet module install --verbose pkg/locp-awsiac-0.1.0.tar.gz
       - FACTER_ENSURE=present puppet apply --test examples/init.pp
