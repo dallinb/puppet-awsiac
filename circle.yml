@@ -8,6 +8,10 @@ dependencies:
     - /home/ubuntu/.puppetlabs
   override:
     - bundle install
+    - rm -rf /home/ubuntu/.puppetlabs/etc/code/modules/awsiac
+    - puppet module install --verbose puppetlabs-aws --version 2.0.0
+    - puppet module install --verbose puppetlabs-stdlib
+
 compile:
   override:
     - bundle exec rake build
