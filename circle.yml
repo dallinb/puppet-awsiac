@@ -8,9 +8,11 @@ dependencies:
     - "wget https://apt.puppetlabs.com/puppetlabs-release-$( facter lsbdistcodename ).deb"
     - "sudo dpkg -i puppetlabs-release-$( facter lsbdistcodename ).deb"
     - "sudo apt-get update"
-    - "sudo apt-get install puppet"
+    - "sudo apt-get install puppetserver"
+    - "sudo /opt/puppetlabs/puppet/bin/gem install aws-sdk-core retries"
+    - "/opt/puppetlabs/bin/puppet --version"
     - "sudo puppet module install --verbose puppetlabs-aws"
-    - "puppet module install --verbose --target-dir=/home/ubuntu/modules puppetlabs-stdlib"
+    - "sudo puppet module install --verbose --test puppetlabs-stdlib"
 deployment:
   init:
     branch: /.*-init/
