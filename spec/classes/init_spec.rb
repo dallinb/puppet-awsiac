@@ -24,7 +24,6 @@ describe 'awsiac' do
     end
 
     it { should contain_class('awsiac') }
-    it { should contain_class('aws') }
     it { should contain_ec2_vpc('TESTEUW2') }
   end
 end

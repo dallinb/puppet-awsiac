@@ -48,8 +48,6 @@ class awsiac (
   $ensure     = present,
   $cidr_block = '172.16.0.0/12',
   ){
-  include aws
-
   $vpc = regsubst(upcase("${vpc_prefix}${region}"), '-([A-Z]).*(\d+)$', '\1\2')
 
   $tags = {
