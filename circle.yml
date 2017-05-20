@@ -4,15 +4,15 @@ compile:
     - "bundle exec rake build"
 dependencies:
   override:
-    - "bundle install"
     - "wget https://apt.puppetlabs.com/puppetlabs-release-$( facter lsbdistcodename ).deb"
     - "sudo dpkg -i puppetlabs-release-$( facter lsbdistcodename ).deb"
     - "sudo apt-get update"
     - "sudo apt-get install puppetserver"
-    - "sudo /opt/puppetlabs/puppet/bin/gem install aws-sdk-core retries"
     - "/opt/puppetlabs/bin/puppet --version"
+    - "sudo /opt/puppetlabs/puppet/bin/gem install aws-sdk-core retries"
     - "sudo puppet module install --verbose puppetlabs-aws"
     - "sudo puppet module install --verbose --test puppetlabs-stdlib"
+    - "bundle install"
 deployment:
   init:
     branch: /.*-init/
