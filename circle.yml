@@ -11,8 +11,7 @@ dependencies:
     # - "/opt/puppetlabs/bin/puppet --version"
     # - "sudo /opt/puppetlabs/puppet/bin/gem install aws-sdk-core retries"
     - "bundle install"
-    - "puppet module install --verbose puppetlabs-aws"
-    # - "librarian-puppet install --clean --verbose"
+    - "librarian-puppet install --path /home/ubuntu/.puppetlabs/etc/code/modules --clean --verbose"
 deployment:
   init:
     branch: /.*-init/
