@@ -4,8 +4,8 @@ compile:
     - "bundle exec rake build"
 dependencies:
   override:
-    - "wget https://apt.puppetlabs.com/puppetlabs-release-$( facter lsbdistcodename ).deb"
-    - "sudo dpkg -i puppetlabs-release-$( facter lsbdistcodename ).deb"
+    - "wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb"
+    - "sudo dpkg -i puppetlabs-release-trusty.deb"
     - "sudo apt-get update"
     - "sudo apt-get install puppetserver"
     - "/opt/puppetlabs/bin/puppet --version"
