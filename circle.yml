@@ -10,8 +10,8 @@ dependencies:
     - "sudo apt-get install puppetserver"
     - "/opt/puppetlabs/bin/puppet --version"
     - "sudo /opt/puppetlabs/puppet/bin/gem install aws-sdk-core retries"
-    - "sudo puppet module install --verbose puppetlabs-aws"
-    - "sudo puppet module install --verbose --test puppetlabs-stdlib"
+    - "sudo /opt/puppetlabs/bin/puppet module install --verbose puppetlabs-aws"
+    - "sudo /opt/puppetlabs/bin/puppet module install --verbose --test puppetlabs-stdlib"
     - "bundle install"
 deployment:
   init:
