@@ -1,0 +1,49 @@
+---
+jobs:
+  build:
+    docker:
+      -
+        environment:
+          AWS_REGION:: "eu-west-2"
+        image: "ubuntu:trusty"
+    steps:
+      - checkout
+      -
+        restore_cache:
+          keys:
+            - "projectname-{{ .Branch }}-{{ checksum \"Gemfile\" }}"
+            - "projectname-{{ .Branch }}"
+            - projectname-master
+      -
+        run:
+          command: "bundle install --path vendor/bundle"
+          name: "Bundle Install"
+      -
+        run:
+          command: "bundle clean --force"
+          name: "Bundle Cleanup"
+      -
+        run:
+          command: "librarian-puppet install --path /home/ubuntu/.puppetlabs/etc/code/modules --clean --verbose"
+          name: "Install Puppet modules"
+      -
+        save_cache:
+          key: "projectname-{{ .Branch }}-{{ checksum \"Gemfile\" }}"
+          paths:
+            - vendor/bundle
+      -
+        run:
+          command: "bundle exec release_checks"
+          name: "Release checks"
+      -
+        run:
+          command: "bundle exec rake build"
+          name: "Build the package"
+      -
+        deploy:
+          name: Install build module and execute
+          command: |
+            puppet module install --force --verbose pkg/locp-awsiac-0.1.0.tar.gz
+            FACTER_ENSURE=present puppet apply --test examples/init.pp
+    working_directory: ~/puppet-awsiac
+version: 2
