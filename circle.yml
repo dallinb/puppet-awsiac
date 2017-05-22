@@ -20,7 +20,7 @@ deployment:
       - "FACTER_ENSURE=present puppet apply --test examples/init.pp"
 machine:
   environment:
-    AWS_REGION: eu-west-2
+    AWS_REGION: eu-west-1
 test:
   override:
     - "bundle exec rake release_checks"
