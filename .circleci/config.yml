@@ -6,14 +6,13 @@ jobs:
         environment:
           AWS_REGION: "eu-west-2"
           PUPPET_ENVIRONMENT: "deuw2"
-      - image: "ruby:2.3"
     steps:
       -
         run:
           command: |
+            echo $PATH
             apt-get update
-            # apt-get -y install build-essential git ruby ruby-dev ruby-bundler
-            apt-get -y install git
+            apt-get -y install build-essential git ruby ruby-dev ruby-bundler
           name: "Install Development Environment"
       - checkout
       -
