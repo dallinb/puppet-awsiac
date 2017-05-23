@@ -52,7 +52,7 @@ jobs:
         deploy:
           name: Install build module and execute
           command: |
-            bundle exec puppet module install --force --verbose pkg/locp-awsiac-0.1.0.tar.gz
+            bundle exec puppet module install --target-dir /home/ubuntu/.puppetlabs/etc/code/modules --force --verbose pkg/locp-awsiac-0.1.0.tar.gz
             FACTER_ENSURE=present bundle exec puppet apply ${PUPPET_APPLY_ARGS} examples/init.pp
     working_directory: ~/puppet-awsiac
 version: 2
