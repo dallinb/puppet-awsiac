@@ -10,12 +10,12 @@ jobs:
           PUPPET_ENVIRONMENT: "deuw2"
     steps:
       - checkout
-      -
-        restore_cache:
-          keys:
-            - "projectname-{{ .Branch }}-{{ checksum \"Gemfile\" }}"
-            - "projectname-{{ .Branch }}"
-            - projectname-master
+#      -
+#        restore_cache:
+#          keys:
+#            - "projectname-{{ .Branch }}-{{ checksum \"Gemfile\" }}"
+#            - "projectname-{{ .Branch }}"
+#            - projectname-master
       -
         run:
           command: "bundle install --path vendor/bundle"
