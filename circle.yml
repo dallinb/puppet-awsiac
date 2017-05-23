@@ -1,0 +1,20 @@
+---
+compile:
+  override:
+    - "bundle exec rake build"
+dependencies:
+  override:
+    - "bundle install"
+    - "librarian-puppet install --path /home/ubuntu/.puppetlabs/etc/code/modules --clean --verbose"
+deployment:
+  init:
+    branch: /.*-init/
+    commands:
+      - "puppet module install --force --verbose pkg/locp-awsiac-0.1.0.tar.gz"
+      - "FACTER_ENSURE=present puppet apply --verbose examples/init.pp"
+machine:
+  environment:
+    AWS_REGION: eu-west-2
+test:
+  override:
+    - "bundle exec rake release_checks"
