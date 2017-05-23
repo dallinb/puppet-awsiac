@@ -19,8 +19,8 @@ jobs:
         run:
           command: |
             apt-get update
-            apt-get -y install ruby ruby-dev ruby-bundler
-          name: "Install Ruby Environment"
+            apt-get -y install build-essential ruby ruby-dev ruby-bundler
+          name: "Install Ruby Development Environment"
       -
         run:
           command: "bundle install --path vendor/bundle"
