@@ -19,7 +19,7 @@ jobs:
         run:
           command: |
             apt-get update
-            apt-get -y install ruby
+            apt-get -y install ruby ruby-bundler
           name: "Install Ruby"
       -
         run:
