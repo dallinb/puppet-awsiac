@@ -10,6 +10,7 @@
 # https://docs.puppet.com/guides/tests_smoke.html
 #
 class { 'awsiac':
+  ensure     => $::ensure,
   region     => 'eu-west-2',
   vpc_prefix => 'D',
 }

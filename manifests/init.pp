@@ -45,7 +45,7 @@
 class awsiac (
   $region,
   $vpc_prefix,
-  $ensure     = $ensure,
+  $ensure,
   $cidr_block = '172.16.0.0/12',
   ){
   $vpc = regsubst(upcase("${vpc_prefix}${region}"), '-([A-Z]).*(\d+)$', '\1\2')
