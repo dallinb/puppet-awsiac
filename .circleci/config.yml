@@ -41,7 +41,7 @@ jobs:
             - /home/ubuntu/.puppetlabs/etc/code/modules
       -
         run:
-          command: "bundle exec release_checks"
+          command: "bundle exec rake release_checks"
           name: "Release checks"
       -
         run:
