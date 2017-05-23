@@ -13,7 +13,7 @@ jobs:
         run:
           command: |
             echo $PATH
-            mkdir $MODULEPATH
+            mkdir -p $MODULEPATH
             apt-get update
             apt-get -y install build-essential git ruby ruby-dev ruby-bundler
           name: "Install Development Environment"
