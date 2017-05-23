@@ -5,7 +5,7 @@ jobs:
       - image: "ubuntu:xenial"
         environment:
           AWS_REGION: "eu-west-2"
-          PUPPET_APPLY_ARGS: "--verbose"
+          PUPPET_APPLY_ARGS: "--verbose --modulepath=/home/ubuntu/.puppetlabs/etc/code/modules"
           PUPPET_ENVIRONMENT: "deuw2"
     steps:
       -
