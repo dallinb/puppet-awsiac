@@ -11,7 +11,7 @@ deployment:
     branch: /.*-init/
     commands:
       - "puppet module install --force --verbose pkg/locp-awsiac-0.1.0.tar.gz"
-      - "FACTER_ENSURE=present puppet apply --verbose examples/init.pp"
+      - "FACTER_ENSURE=absent puppet apply --verbose examples/init.pp"
 machine:
   environment:
     AWS_REGION: eu-west-2
