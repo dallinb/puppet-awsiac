@@ -31,7 +31,7 @@ jobs:
           name: "Bundle Cleanup"
       -
         run:
-          command: "librarian-puppet install --path /home/ubuntu/.puppetlabs/etc/code/modules --clean --verbose"
+          command: "bundle exec librarian-puppet install --path /home/ubuntu/.puppetlabs/etc/code/modules --clean --verbose"
           name: "Install Puppet modules"
       -
         save_cache:
@@ -51,7 +51,7 @@ jobs:
         deploy:
           name: Install build module and execute
           command: |
-            puppet module install --force --verbose pkg/locp-awsiac-0.1.0.tar.gz
+            bundle exec puppet module install --force --verbose pkg/locp-awsiac-0.1.0.tar.gz
             FACTER_ENSURE=present puppet apply --verbose --show-diff examples/init.pp
     working_directory: ~/puppet-awsiac
 version: 2
