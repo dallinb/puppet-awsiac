@@ -5,6 +5,7 @@ jobs:
       - image: "ubuntu:xenial"
         environment:
           AWS_REGION: "eu-west-2"
+          PUPPET_APPLY_ARGS: "--verbose"
           PUPPET_ENVIRONMENT: "deuw2"
     steps:
       -
@@ -52,6 +53,6 @@ jobs:
           name: Install build module and execute
           command: |
             bundle exec puppet module install --force --verbose pkg/locp-awsiac-0.1.0.tar.gz
-            FACTER_ENSURE=present bundle exec puppet apply --verbose --show-diff examples/init.pp
+            FACTER_ENSURE=present bundle exec puppet apply ${PUPPET_APPLY_ARGS} examples/init.pp
     working_directory: ~/puppet-awsiac
 version: 2
