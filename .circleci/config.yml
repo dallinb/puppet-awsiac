@@ -6,7 +6,7 @@ jobs:
         environment:
           AWS_REGION: "eu-west-2"
           PUPPET_ENVIRONMENT: "deuw2"
-        image: "ubuntu:trusty"
+        image: "ubuntu:xenial"
     steps:
       - checkout
       -
