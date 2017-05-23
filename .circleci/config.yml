@@ -5,7 +5,7 @@ jobs:
       - image: 'circleci/ruby:2.4.1-node'
         environment:
           AWS_REGION: "eu-west-2"
-          MODULEPATH: '/home/ubuntu/.puppetlabs/etc/code/modules'
+          MODULEPATH: '/home/circleci/.puppetlabs/etc/code/modules'
           PUPPET_APPLY_ARGS: "--verbose"
           PUPPET_ENVIRONMENT: "deuw2"
     steps:
