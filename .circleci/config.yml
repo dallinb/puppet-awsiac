@@ -2,21 +2,13 @@
 jobs:
   build:
     docker:
-      - image: "ubuntu:xenial"
+      - image: 'circleci/ruby:2.4.1-node'
         environment:
           AWS_REGION: "eu-west-2"
-          MODULEPATH: '/etc/puppetlabs/code/modules'
+          MODULEPATH: '/home/ubuntu/.puppetlabs/etc/code/modules'
           PUPPET_APPLY_ARGS: "--verbose"
           PUPPET_ENVIRONMENT: "deuw2"
     steps:
-      -
-        run:
-          command: |
-            echo $PATH
-            mkdir -p $MODULEPATH
-            apt-get update
-            apt-get -y install build-essential git ruby ruby-dev ruby-bundler
-          name: "Install Development Environment"
       - checkout
       -
         restore_cache:
@@ -54,7 +46,7 @@ jobs:
         deploy:
           name: Install build module and execute
           command: |
-            bundle exec puppet module install --target-dir=${MODULEPATH} --verbose pkg/locp-awsiac-0.1.0.tar.gz
-            FACTER_ENSURE=present bundle exec puppet apply ${PUPPET_APPLY_ARGS} examples/init.pp
+            puppet module install --verbose pkg/locp-awsiac-0.1.0.tar.gz
+            FACTER_ENSURE=present puppet apply ${PUPPET_APPLY_ARGS} examples/init.pp
     working_directory: ~/puppet-awsiac
 version: 2
