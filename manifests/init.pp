@@ -19,14 +19,32 @@ class awsiac (
     tags       => $tags,
   }
 
-  # Remove the automatically created rtb.
-  ec2_vpc_routetable { $vpc:
-    ensure => absent,
-  }
-
   ec2_vpc_internet_gateway { "${vpc}-igw":
     ensure => $ensure,
     region => $region,
+    vpc    => $vpc,
+    tags   => $tags,
+  }
+
+  ec2_vpc_routetable { "${vpc}-rtb":
+    ensure => present,
+    region => 'sa-east-1',
+    vpc    => 'sample-vpc',
+    tags   => $tags,
+    routes => [
+      {
+        destination_cidr_block => $cidr_block,
+        gateway                => 'local'
+      },{
+        destination_cidr_block => '0.0.0.0/0',
+        gateway                => "${vpc}-igw"
+      },
+    ],
+  }
+
+  # Remove the automatically created rtb.
+  ec2_vpc_routetable { $vpc:
+    ensure => absent,
     vpc    => $vpc,
   }
 }
