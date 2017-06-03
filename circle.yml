@@ -5,9 +5,10 @@ machine:
     FACTER_ensure: present
 
 dependencies:
+  cache_directories:
+    - "/opt/circleci/.rvm"
   override:
     - "bundle install"
-    - "gem environment"
     - "librarian-puppet install --path /home/ubuntu/.puppetlabs/etc/code/modules --clean --verbose"
 
 test:
