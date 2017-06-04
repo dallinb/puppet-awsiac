@@ -6,6 +6,19 @@ class awsiac (
   $ensure,
   $cidr_block = '172.16.0.0/12',
   ){
+  # Reverse the default resource ordering if the resources are to be 'absent'.
+  if $ensure == 'absent' {
+    Ec2_instance <| |> -> Ec2_securitygroup <| |>
+    Ec2_instance <| |> -> Ec2_vpc_subnet <| |>
+    Ec2_securitygroup <| |> -> Ec2_vpc <| |>
+    Ec2_vpc_subnet <| |> -> Ec2_vpc <| |>
+    Ec2_vpc_subnet <| |> -> Ec2_vpc_internet_gateway <| |>
+    Ec2_vpc_subnet <| |> -> Ec2_vpc_routetable <| |>
+    Ec2_vpc_internet_gateway <| |> -> Ec2_vpc <| |>
+    Ec2_vpc_routetable <| |> -> Ec2_vpc <| |>
+    Ec2_vpc <| |> -> Ec2_vpc_dhcp_options <| |>
+  }
+
   $vpc = regsubst(upcase("${vpc_prefix}${region}"), '-([A-Z]).*(\d+)$', '\1\2')
 
   $tags = {

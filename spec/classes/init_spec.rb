@@ -4,9 +4,13 @@ describe 'awsiac' do
     [
       'class aws () {}',
       'define ec2_vpc ($ensure, $region, $cidr_block, $tags) {}',
+      'define ec2_instance() {}',
+      'define ec2_securitygroup() {}',
+      'define ec2_vpc_dhcp_options() {}',
       'define ec2_vpc_internet_gateway($ensure, $region, $vpc, $tags) {}',
       'define ec2_vpc_routetable($ensure, $region = "", $vpc, $routes = [],
-         $tags = []) {}'
+         $tags = []) {}',
+      'define ec2_vpc_subnet() {}'
     ]
   end
 
