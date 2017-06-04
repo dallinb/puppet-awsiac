@@ -3,11 +3,10 @@ describe 'awsiac' do
   let(:pre_condition) do
     [
       'class aws () {}',
-      'define ec2_vpc (
-        $ensure,
-        $region,
-        $cidr_block,
-        $tags) {}'
+      'define ec2_vpc ($ensure, $region, $cidr_block, $tags) {}',
+      'define ec2_vpc_internet_gateway($ensure, $region, $vpc, $tags) {}',
+      'define ec2_vpc_routetable($ensure, $region = "", $vpc, $routes = [],
+         $tags = []) {}'
     ]
   end
 
@@ -39,5 +38,8 @@ describe 'awsiac' do
 
     it { should contain_class('awsiac') }
     it { should contain_ec2_vpc('TESTEUW2') }
+    it { should contain_ec2_vpc_routetable('TESTEUW2-rtb') }
+    it { should contain_ec2_vpc_routetable('TESTEUW2') }
+    it { should contain_ec2_vpc_internet_gateway('TESTEUW2-igw') }
   end
 end
