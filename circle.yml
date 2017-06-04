@@ -7,9 +7,10 @@ machine:
 dependencies:
   cache_directories:
     - "/opt/circleci/.rvm"
+    - "/home/ubuntu/.puppetlabs/etc/code/modules"
   override:
     - "bundle install"
-    - "librarian-puppet install --path /home/ubuntu/.puppetlabs/etc/code/modules --clean --verbose"
+    - "librarian-puppet install --path /home/ubuntu/.puppetlabs/etc/code/modules --verbose"
 
 test:
   override:
