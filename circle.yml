@@ -2,7 +2,7 @@
 machine:
   environment:
     AWS_REGION: eu-west-2
-    FACTER_ensure: absent
+    FACTER_ensure: present
 
 dependencies:
   cache_directories:
@@ -22,7 +22,7 @@ compile:
 
 deployment:
   init:
-    branch: /.*-destroy/
+    branch: /^(?!master$).*$/  # not the master branch
     commands:
       - "puppet module install --force --verbose pkg/locp-awsiac-0.1.0.tar.gz"
       - "./puppet_wrapper.sh apply examples/init.pp --test"
