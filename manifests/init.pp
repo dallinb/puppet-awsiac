@@ -1,10 +1,10 @@
 # Class: awsiac
 # ===========================
 class awsiac (
-  $region,
-  $vpc_prefix,
-  $ensure,
-  $cidr_block,
+  $cidr_block = $::cidr_block,
+  $ensure     = $::ensure,
+  $region     = $::region,
+  $vpc_prefix = $::vpc_prefix,
   ){
   # Reverse the default resource ordering if the resources are to be 'absent'.
   if $ensure == 'absent' {
