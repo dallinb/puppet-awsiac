@@ -40,7 +40,7 @@ class awsiac (
   }
 
   ec2_vpc_routetable { "${vpc}-rtb":
-    ensure => present,
+    ensure => $ensure,
     region => $region,
     vpc    => $vpc,
     tags   => $tags,
