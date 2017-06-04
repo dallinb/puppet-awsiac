@@ -9,6 +9,7 @@ dependencies:
   cache_directories:
     - "/opt/circleci/.rvm"
     - "/home/ubuntu/.puppetlabs/etc/code/modules"
+    - "/home/ubuntu/puppet-awsiac/Puppetfile.lock"
   override:
     - "bundle install"
     - "librarian-puppet install --path /home/ubuntu/.puppetlabs/etc/code/modules --verbose"
