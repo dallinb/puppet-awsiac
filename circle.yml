@@ -25,4 +25,4 @@ deployment:
     branch: /.*-destroy/
     commands:
       - "puppet module install --force --verbose pkg/locp-awsiac-0.1.0.tar.gz"
-      - "puppet_wrapper.sh apply examples/init.pp --test"
+      - "./puppet_wrapper.sh apply examples/init.pp --test"
