@@ -28,7 +28,7 @@ class awsiac (
   ec2_vpc { $vpc:
     ensure     => $ensure,
     region     => $region,
-    cidr_block => '10.0.0.0/16',
+    cidr_block => $cidr_block,
     tags       => $tags,
   }
 
