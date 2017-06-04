@@ -28,12 +28,7 @@ class awsiac (
 
   case $region {
     'eu-west-2': {
-      $ntp_servers = [
-        '0.uk.pool.ntp.org',
-        '1.uk.pool.ntp.org',
-        '2.uk.pool.ntp.org',
-        '3.uk.pool.ntp.org'
-      ]
+      $ntp_servers = '0.uk.pool.ntp.org,1.uk.pool.ntp.org,2.uk.pool.ntp.org,3.uk.pool.ntp.org'
     }
     default: {
       $ntp_servers = [
