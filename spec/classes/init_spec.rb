@@ -31,7 +31,6 @@ describe 'awsiac' do
     it { should contain_class('awsiac') }
     it { should contain_ec2_vpc('TESTEUW2') }
     it { should contain_ec2_vpc_routetable('TESTEUW2-rtb') }
-    it { should contain_ec2_vpc_routetable('TESTEUW2') }
     it { should contain_ec2_vpc_internet_gateway('TESTEUW2-igw') }
   end
 
@@ -48,7 +47,6 @@ describe 'awsiac' do
     it { should contain_class('awsiac') }
     it { should contain_ec2_vpc('TESTEUW2') }
     it { should contain_ec2_vpc_routetable('TESTEUW2-rtb') }
-    it { should contain_ec2_vpc_routetable('TESTEUW2') }
     it { should contain_ec2_vpc_internet_gateway('TESTEUW2-igw') }
   end
 end

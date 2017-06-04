@@ -54,10 +54,4 @@ class awsiac (
       },
     ],
   }
-
-  # Remove the automatically created rtb.
-  ec2_vpc_routetable { $vpc:
-    ensure => absent,
-    vpc    => $vpc,
-  }
 }
