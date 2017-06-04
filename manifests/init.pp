@@ -26,25 +26,11 @@ class awsiac (
     environment => downcase($vpc),
   }
 
-  case $region {
-    'eu-west-2': {
-      $ntp_servers = '0.uk.pool.ntp.org,1.uk.pool.ntp.org,2.uk.pool.ntp.org,3.uk.pool.ntp.org'
-    }
-    default: {
-      $ntp_servers = [
-        '0.pool.ntp.org',
-        '1.pool.ntp.org',
-        '2.pool.ntp.org',
-        '3.pool.ntp.org'
-      ]
-    }
-  }
-
   ec2_vpc_dhcp_options { "${vpc}-dopt":
-    ensure      => $ensure,
-    ntp_servers => $ntp_servers,
-    region      => $region,
-    tags        => $tags,
+    ensure              => $ensure,
+    domain_name_servers => ['8.8.8.8', '8.8.4.4'],
+    region              => $region,
+    tags                => $tags,
   }
 
   ec2_vpc { $vpc:
