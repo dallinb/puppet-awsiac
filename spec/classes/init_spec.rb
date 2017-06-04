@@ -23,12 +23,16 @@ describe 'awsiac' do
       {
         ensure: 'present',
         region: 'eu-west-2',
-        vpc_prefix: 'test'
+        vpc_prefix: 'test',
+        cidr_block: '192.168.0.0/16'
       }
     end
 
     it { should contain_class('awsiac') }
     it { should contain_ec2_vpc('TESTEUW2') }
+    it { should contain_ec2_vpc_routetable('TESTEUW2-rtb') }
+    it { should contain_ec2_vpc_routetable('TESTEUW2') }
+    it { should contain_ec2_vpc_internet_gateway('TESTEUW2-igw') }
   end
 
   context 'Destroy' do
@@ -36,7 +40,8 @@ describe 'awsiac' do
       {
         ensure: 'absent',
         region: 'eu-west-2',
-        vpc_prefix: 'test'
+        vpc_prefix: 'test',
+        cidr_block: '192.168.0.0/16'
       }
     end
 

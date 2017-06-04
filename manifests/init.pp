@@ -4,7 +4,7 @@ class awsiac (
   $region,
   $vpc_prefix,
   $ensure,
-  $cidr_block = '172.16.0.0/12',
+  $cidr_block,
   ){
   # Reverse the default resource ordering if the resources are to be 'absent'.
   if $ensure == 'absent' {
