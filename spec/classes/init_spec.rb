@@ -11,7 +11,8 @@ describe 'awsiac' do
       'define ec2_vpc_internet_gateway($ensure, $region, $vpc, $tags) {}',
       'define ec2_vpc_routetable($ensure, $region = "", $vpc, $routes = [],
          $tags = []) {}',
-      'define ec2_vpc_subnet() {}'
+      'define ec2_vpc_subnet($ensure, $region, $cidr_block, $availability_zone,
+        $map_public_ip_on_launch, $vpc, $tags) {}'
     ]
   end
 
@@ -22,36 +23,78 @@ describe 'awsiac' do
   context 'Apply' do
     let :params do
       {
-        az_count: 2,
+        cidr_block: '10.42.0.0/16',
         ensure: 'present',
         region: 'eu-west-2',
-        vpc_prefix: 'test',
-        cidr_block: '192.168.0.0/16'
+        vpc_prefix: 'test'
       }
     end
 
-    it { should contain_class('awsiac') }
-    it { should contain_ec2_vpc_dhcp_options('TESTEUW2-dopt') }
-    it { should contain_ec2_vpc('TESTEUW2') }
-    it { should contain_ec2_vpc_routetable('TESTEUW2-rtb') }
-    it { should contain_ec2_vpc_internet_gateway('TESTEUW2-igw') }
-  end
+    it { is_expected.to have_resource_count(5) }
 
-  context 'Destroy' do
-    let :params do
-      {
-        az_count: 3,
-        ensure: 'absent',
+    it {
+      should contain_class('awsiac').with(
+        cidr_block: '10.42.0.0/16',
+        ensure: 'present',
         region: 'eu-west-2',
-        vpc_prefix: 'test',
-        cidr_block: '192.168.0.0/16'
-      }
-    end
+        vpc_prefix: 'test'
+      )
+    }
 
-    it { should contain_class('awsiac') }
-    it { should contain_ec2_vpc_dhcp_options('TESTEUW2-dopt') }
-    it { should contain_ec2_vpc('TESTEUW2') }
-    it { should contain_ec2_vpc_routetable('TESTEUW2-rtb') }
-    it { should contain_ec2_vpc_internet_gateway('TESTEUW2-igw') }
+    it {
+      should contain_ec2_vpc_dhcp_options('TESTEUW2-dopt').with(
+        ensure: 'present',
+        domain_name_servers: ['8.8.8.8', '8.8.4.4'],
+        region: 'eu-west-2',
+        tags: {
+          'environment' => 'testeuw2'
+        }
+      )
+    }
+
+    it {
+      should contain_ec2_vpc('TESTEUW2').with(
+        ensure: 'present',
+        cidr_block: '10.42.0.0/16',
+        dhcp_options: 'TESTEUW2-dopt',
+        region: 'eu-west-2',
+        tags: {
+          'environment' => 'testeuw2'
+        }
+      )
+    }
+
+    it {
+      should contain_ec2_vpc_routetable('TESTEUW2-rtb').with(
+        ensure: 'present',
+        region: 'eu-west-2',
+        vpc: 'TESTEUW2',
+        tags: {
+          'environment' => 'testeuw2'
+        },
+        routes: [
+          {
+            'destination_cidr_block' => '10.42.0.0/16',
+            'gateway'                => 'local'
+          }, {
+            'destination_cidr_block' => '0.0.0.0/0',
+            'gateway'                => 'TESTEUW2-igw'
+          }
+        ]
+      )
+    }
+
+    it {
+      should contain_ec2_vpc_internet_gateway('TESTEUW2-igw').with(
+        ensure: 'present',
+        region: 'eu-west-2',
+        vpc: 'TESTEUW2',
+        tags: {
+          'environment' => 'testeuw2'
+        }
+      )
+    }
+
+    it { should contain_ec2_vpc_subnet('TESTEUW2-web1a-sbt') }
   end
 end

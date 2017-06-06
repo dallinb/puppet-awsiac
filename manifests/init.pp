@@ -1,7 +1,6 @@
 # Class: awsiac
 # ===========================
 class awsiac (
-  $az_count   = $::az_count,
   $cidr_block = $::cidr_block,
   $ensure     = $::ensure,
   $region     = $::region,
@@ -21,6 +20,7 @@ class awsiac (
   }
 
   $vpc = regsubst(upcase("${vpc_prefix}${region}"), '-([A-Z]).*(\d+)$', '\1\2')
+  $first2octets = regsubst($cidr_block,'^(\d+)\.(\d+)\.(\d+)\.(\d+)$','\1.\2')
 
   $tags = {
     environment => downcase($vpc),
@@ -62,5 +62,17 @@ class awsiac (
         gateway                => "${vpc}-igw"
       },
     ],
+  }
+
+  ec2_vpc_subnet { "${vpc}-web1a-sbt":
+    ensure                  => present,
+    region                  => $region,
+    cidr_block              => "${first2octets}.0.0/24",
+    availability_zone       => "${region}a",
+    map_public_ip_on_launch => true,
+    vpc                     => $vpc,
+    tags                    => {
+      tag_name => 'value',
+    },
   }
 }
