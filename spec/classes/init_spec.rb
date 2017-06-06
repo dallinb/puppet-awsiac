@@ -5,7 +5,8 @@ describe 'awsiac' do
       'class aws () {}',
       'define ec2_vpc ($ensure, $dhcp_options, $region, $cidr_block, $tags) {}',
       'define ec2_instance() {}',
-      'define ec2_securitygroup() {}',
+      'define ec2_securitygroup($ensure, $region, $vpc, $description, $ingress,
+        $tags) {}',
       'define ec2_vpc_dhcp_options($ensure, $domain_name_servers, $region,
          $tags) {}',
       'define ec2_vpc_internet_gateway($ensure, $region, $vpc, $tags) {}',
@@ -30,7 +31,7 @@ describe 'awsiac' do
       }
     end
 
-    it { is_expected.to have_resource_count(5) }
+    it { is_expected.to have_resource_count(6) }
 
     it {
       should contain_class('awsiac').with(
@@ -96,5 +97,6 @@ describe 'awsiac' do
     }
 
     it { should contain_ec2_vpc_subnet('TESTEUW2-web1a-sbt') }
+    it { should contain_ec2_securitygroup('TESTEUW2-odoo-sg') }
   end
 end

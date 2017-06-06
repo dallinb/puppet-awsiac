@@ -73,4 +73,27 @@ class awsiac (
     vpc                     => $vpc,
     tags                    => $tags,
   }
+
+  ec2_securitygroup { "${vpc}-odoo-sg":
+    ensure      => $ensure,
+    region      => $region,
+    vpc         => $vpc,
+    description => 'Security group for the odoo role',
+    ingress     => [
+      {
+        protocol => 'tcp',
+        port     => 22,
+        cidr     => '0.0.0.0/0',
+      }, {
+        protocol => 'tcp',
+        port     => 80,
+        cidr     => '0.0.0.0/0',
+      }, {
+        protocol => 'tcp',
+        port     => 443,
+        cidr     => '0.0.0.0/0',
+      }
+    ],
+    tags        => $tags,
+  }
 }
