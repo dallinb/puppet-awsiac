@@ -65,7 +65,7 @@ class awsiac (
   }
 
   ec2_vpc_subnet { "${vpc}-web1a-sbt":
-    ensure                  => present,
+    ensure                  => $ensure,
     region                  => $region,
     cidr_block              => "${first2octets}.0.0/24",
     availability_zone       => "${region}a",
