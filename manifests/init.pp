@@ -71,8 +71,6 @@ class awsiac (
     availability_zone       => "${region}a",
     map_public_ip_on_launch => true,
     vpc                     => $vpc,
-    tags                    => {
-      tag_name => 'value',
-    },
+    tags                    => $tags,
   }
 }
