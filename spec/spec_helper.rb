@@ -8,11 +8,11 @@ RSpec.configure do |config|
 
   config.before(:each) do
     MockFunction.new('downcase') do |f|
-      f.stubbed.with('TESTEUW2').returns('testeuw2')
+      f.stubbed.with('TESTEUW2A').returns('testeuw2a')
     end
 
     MockFunction.new('upcase') do |f|
-      f.stubbed.with('testeu-west-2').returns('TESTEU-WEST-2')
+      f.stubbed.with('testeu-west-2a').returns('TESTEU-WEST-2A')
     end
   end
 

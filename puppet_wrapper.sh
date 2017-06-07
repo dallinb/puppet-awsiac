@@ -5,7 +5,13 @@
 #
 # See https://docs.puppet.com/puppet/latest/man/apply.html for more details
 #############################################################################
-puppet $*
+echo "AWS_REGION        : $AWS_REGION"
+echo "CIDR Block        : $FACTER_cidr_block"
+echo "Puppet Environment: $PUPPET_ENVIRONMENT"
+echo "VPC Prefix        : $FACTER_vpc_prefix"
+echo "VPC Postfix       : $FACTER_vpc_postfix"
+
+FACTER_region=$AWS_REGION puppet apply examples/init.pp --test --environment $PUPPET_ENVIRONMENT --debug
 status=$?
 [ $status -eq 0 -o $status -eq 2 ] && exit 0
 exit $status

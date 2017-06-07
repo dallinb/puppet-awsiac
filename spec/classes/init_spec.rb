@@ -27,6 +27,7 @@ describe 'awsiac' do
         cidr_block: '10.42.0.0/16',
         ensure: 'present',
         region: 'eu-west-2',
+        vpc_postfix: 'a',
         vpc_prefix: 'test'
       }
     end
@@ -38,40 +39,41 @@ describe 'awsiac' do
         cidr_block: '10.42.0.0/16',
         ensure: 'present',
         region: 'eu-west-2',
+        vpc_postfix: 'a',
         vpc_prefix: 'test'
       )
     }
 
     it {
-      should contain_ec2_vpc_dhcp_options('TESTEUW2-dopt').with(
+      should contain_ec2_vpc_dhcp_options('TESTEUW2A-dopt').with(
         ensure: 'present',
         domain_name_servers: ['8.8.8.8', '8.8.4.4'],
         region: 'eu-west-2',
         tags: {
-          'environment' => 'testeuw2'
+          'environment' => 'testeuw2a'
         }
       )
     }
 
     it {
-      should contain_ec2_vpc('TESTEUW2').with(
+      should contain_ec2_vpc('TESTEUW2A').with(
         ensure: 'present',
         cidr_block: '10.42.0.0/16',
-        dhcp_options: 'TESTEUW2-dopt',
+        dhcp_options: 'TESTEUW2A-dopt',
         region: 'eu-west-2',
         tags: {
-          'environment' => 'testeuw2'
+          'environment' => 'testeuw2a'
         }
       )
     }
 
     it {
-      should contain_ec2_vpc_routetable('TESTEUW2-rtb').with(
+      should contain_ec2_vpc_routetable('TESTEUW2A-rtb').with(
         ensure: 'present',
         region: 'eu-west-2',
-        vpc: 'TESTEUW2',
+        vpc: 'TESTEUW2A',
         tags: {
-          'environment' => 'testeuw2'
+          'environment' => 'testeuw2a'
         },
         routes: [
           {
@@ -79,24 +81,24 @@ describe 'awsiac' do
             'gateway'                => 'local'
           }, {
             'destination_cidr_block' => '0.0.0.0/0',
-            'gateway'                => 'TESTEUW2-igw'
+            'gateway'                => 'TESTEUW2A-igw'
           }
         ]
       )
     }
 
     it {
-      should contain_ec2_vpc_internet_gateway('TESTEUW2-igw').with(
+      should contain_ec2_vpc_internet_gateway('TESTEUW2A-igw').with(
         ensure: 'present',
         region: 'eu-west-2',
-        vpc: 'TESTEUW2',
+        vpc: 'TESTEUW2A',
         tags: {
-          'environment' => 'testeuw2'
+          'environment' => 'testeuw2a'
         }
       )
     }
 
-    it { should contain_ec2_vpc_subnet('TESTEUW2-web1a-sbt') }
-    it { should contain_ec2_securitygroup('TESTEUW2-odoo-sg') }
+    it { should contain_ec2_vpc_subnet('TESTEUW2A-web1a-sbt') }
+    it { should contain_ec2_securitygroup('TESTEUW2A-odoo-sg') }
   end
 end
