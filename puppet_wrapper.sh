@@ -13,7 +13,8 @@ echo "VPC Postfix       : $FACTER_vpc_postfix"
 
 FACTER_region=$AWS_REGION puppet apply examples/init.pp --test \
   --environment $PUPPET_ENVIRONMENT --debug \
-  --modulepath /home/ubuntu/.puppetlabs/etc/code/environments/${PUPPET_ENVIRONMENT}
+  --modulepath /home/ubuntu/.puppetlabs/etc/code/environments/${PUPPET_ENVIRONMENT} \
+  --hiera_config hiera.yaml
 status=$?
 [ $status -eq 0 -o $status -eq 2 ] && exit 0
 exit $status

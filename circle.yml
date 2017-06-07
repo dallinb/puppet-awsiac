@@ -4,7 +4,7 @@ machine:
     AWS_REGION: "eu-west-2"
     FACTER_cidr_block: "192.168.0.0/16"
     FACTER_vpc_postfix: "A"
-    FACTER_vpc_prefix: "D"
+    FACTER_vpc_prefix: "D1"
     PUPPET_ENVIRONMENT: "d1euw2a"
 
 dependencies:
