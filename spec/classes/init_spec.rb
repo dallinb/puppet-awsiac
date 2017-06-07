@@ -13,7 +13,7 @@ describe 'awsiac' do
       'define ec2_vpc_routetable($ensure, $region = "", $vpc, $routes = [],
          $tags = []) {}',
       'define ec2_vpc_subnet($ensure, $region, $cidr_block, $availability_zone,
-        $map_public_ip_on_launch, $vpc, $tags) {}'
+        $map_public_ip_on_launch, $route_table, $vpc, $tags) {}'
     ]
   end
 

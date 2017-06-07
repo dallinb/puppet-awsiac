@@ -70,6 +70,7 @@ class awsiac (
     cidr_block              => "${first2octets}.0.0/24",
     availability_zone       => "${region}a",
     map_public_ip_on_launch => true,
+    route_table             => "${vpc}-rtb",
     vpc                     => $vpc,
     tags                    => $tags,
   }
