@@ -10,11 +10,11 @@ machine:
 dependencies:
   cache_directories:
     - "/opt/circleci/.rvm"
-    - "/home/ubuntu/.puppetlabs/etc/code/modules"
-    - "/home/ubuntu/puppet-awsiac/Puppetfile.lock"
+    - "~/.puppetlabs"
+    - "./Puppetfile.lock"
   override:
     - "bundle install"
-    - "librarian-puppet install --path /home/ubuntu/.puppetlabs/etc/code/modules --verbose"
+    - "librarian-puppet install --path /home/ubuntu/.puppetlabs/etc/code/environments/${PUPPET_ENVIRONMENT} --verbose"
 
 test:
   override:
@@ -28,10 +28,10 @@ deployment:
   init:
     branch: /.*-init/
     commands:
-      - "puppet module install --force --verbose pkg/locp-awsiac-0.1.0.tar.gz"
+      - "puppet module install --force --verbose pkg/locp-awsiac-0.1.0.tar.gz --modulepath /home/ubuntu/.puppetlabs/etc/code/environments/${PUPPET_ENVIRONMENT}"
       - "FACTER_ensure=present ./puppet_wrapper.sh"
   destroy:
     branch: /.*-destroy/
     commands:
-      - "puppet module install --force --verbose pkg/locp-awsiac-0.1.0.tar.gz"
+      - "puppet module install --force --verbose pkg/locp-awsiac-0.1.0.tar.gz --modulepath /home/ubuntu/.puppetlabs/etc/code/environments/${PUPPET_ENVIRONMENT}"
       - "FACTER_ensure=absent ./puppet_wrapper.sh"
