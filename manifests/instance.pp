@@ -7,7 +7,7 @@ define awsiac::instance (
   $ensure = $::ensure,
   $instance_name = $title,
   ) {
-  require awsiac
+  include awsiac
 
   $subnet = "${awsiac::vpc}-${tier}${tier_number}${tier_az}-sbt"
   notify { "subnet:= ${subnet}": }
