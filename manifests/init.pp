@@ -3,6 +3,7 @@
 class awsiac (
   $cidr_block  = $::cidr_block,
   $ensure      = $::ensure,
+  $instances   = [],
   $region      = $::region,
   $vpc_postfix = $::vpc_postfix,
   $vpc_prefix  = $::vpc_prefix,
@@ -100,4 +101,6 @@ class awsiac (
     ],
     tags        => $tags,
   }
+
+  create_resources(awsiac::instance, $instances)
 }
