@@ -3,7 +3,7 @@
 class awsiac (
   $cidr_block  = $::cidr_block,
   $ensure      = $::ensure,
-  $instances   = [],
+  $instances   = {},
   $region      = $::region,
   $vpc_postfix = $::vpc_postfix,
   $vpc_prefix  = $::vpc_prefix,
