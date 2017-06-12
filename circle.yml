@@ -16,9 +16,10 @@ dependencies:
     - "bundle install"
     - "librarian-puppet install --path /home/ubuntu/.puppetlabs/etc/code/environments/${PUPPET_ENVIRONMENT} --verbose"
 
-# test:
-#   override:
-#     - "bundle exec rake release_checks"
+test:
+  override:
+    - 'true'
+    # - "bundle exec rake release_checks"
 
 compile:
   override:
