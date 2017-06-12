@@ -102,5 +102,5 @@ class awsiac (
     tags        => $tags,
   }
 
-  create_resources(awsiac::instance, $instances)
+  create_resources('awsiac::instance', $instances)
 }
