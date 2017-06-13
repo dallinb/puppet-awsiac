@@ -18,8 +18,7 @@ dependencies:
 
 test:
   override:
-    - 'true'
-    # - "bundle exec rake release_checks"
+     - "bundle exec rake release_checks"
 
 compile:
   override:

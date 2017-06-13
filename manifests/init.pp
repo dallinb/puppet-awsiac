@@ -3,7 +3,6 @@
 class awsiac (
   $cidr_block  = $::cidr_block,
   $ensure      = $::ensure,
-  $instances   = {},
   $region      = $::region,
   $vpc_postfix = $::vpc_postfix,
   $vpc_prefix  = $::vpc_prefix,
@@ -102,7 +101,15 @@ class awsiac (
     tags        => $tags,
   }
 
-  if $instances {
-    create_resources('awsiac::instance', $instances)
+  ec2_instance { "${vpc}:odoo1a":
+    ensure            => $ensure,
+    region            => $region,
+    availability_zone => "${region}a",
+    image_id          => '',
+    instance_type     => 't2.micro',
+    key_name          => 'puppet',
+    subnet            => "${vpc}-web1a-sbt",
+    security_groups   => ["${vpc}-odoo-sg"],
+    tags              => $tags,
   }
 }
