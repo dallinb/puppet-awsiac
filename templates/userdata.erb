@@ -4,3 +4,5 @@ wget https://apt.puppetlabs.com/puppetlabs-release-pc1-wheezy.deb
 sudo dpkg -i puppetlabs-release-pc1-wheezy.deb
 sudo apt-get update
 sudo apt-get install -y puppet-agent
+rm /tmp/puppetlabs-release-pc1-wheezy.deb
+curl http://169.254.169.254/latest/dynamic/instance-identity/document > /root/instance_metadata.json
