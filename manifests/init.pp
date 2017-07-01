@@ -102,14 +102,16 @@ class awsiac (
   }
 
   ec2_instance { "${vpc}:odoo1a":
-    ensure            => $ensure,
-    region            => $region,
-    availability_zone => "${region}a",
-    image_id          => 'ami-f1d7c395',
-    instance_type     => 't2.micro',
-    key_name          => 'puppet',
-    subnet            => "${vpc}-web1a-sbt",
-    security_groups   => ["${vpc}-odoo-sg"],
-    tags              => $tags,
+    ensure                    => $ensure,
+    region                    => $region,
+    availability_zone         => "${region}a",
+    iam_instance_profile_name => 'puppet',
+    image_id                  => 'ami-f1d7c395',
+    instance_type             => 't2.micro',
+    key_name                  => 'puppet',
+    subnet                    => "${vpc}-web1a-sbt",
+    security_groups           => ["${vpc}-odoo-sg"],
+    tags                      => $tags,
+    user_data                 => template('awsiac/userdata.erb'),
   }
 }
