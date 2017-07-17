@@ -106,7 +106,7 @@ class awsiac (
     region                    => $region,
     availability_zone         => "${region}a",
     iam_instance_profile_name => 'puppet',
-    image_id                  => 'ami-f1d7c395',
+    image_id                  => 'ami-40a8bf24',
     instance_type             => 't2.micro',
     key_name                  => 'puppet',
     subnet                    => "${vpc}-web1a-sbt",
