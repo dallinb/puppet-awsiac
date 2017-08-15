@@ -8,7 +8,7 @@ gem 'librarian-puppet'
 gem 'metadata-json-lint'
 gem 'puppet', puppetversion
 gem 'puppet-lint', '>= 1.0.0'
-gem 'puppetlabs_spec_helper', '>= 1.0.0'
+gem 'puppetlabs_spec_helper', '<= 2.3.1'
 gem 'retries'
 gem 'rspec-puppet'
 gem 'rspec-puppet-utils'
