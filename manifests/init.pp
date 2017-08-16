@@ -1,9 +1,9 @@
 # Class: awsiac
 # ===========================
 class awsiac (
+  $region,
   $cidr_block  = $::cidr_block,
   $ensure      = $::ensure,
-  $region      = $::region,
   $vpc_postfix = $::vpc_postfix,
   $vpc_prefix  = $::vpc_prefix,
   ){

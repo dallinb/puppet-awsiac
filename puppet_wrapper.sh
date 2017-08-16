@@ -11,7 +11,7 @@ echo "Puppet Environment: $PUPPET_ENVIRONMENT"
 echo "VPC Prefix        : $FACTER_vpc_prefix"
 echo "VPC Postfix       : $FACTER_vpc_postfix"
 
-FACTER_region=$AWS_REGION puppet apply examples/init.pp --test \
+puppet apply examples/init.pp --test \
   --environment $PUPPET_ENVIRONMENT $PUPPET_OPTS \
   --modulepath /home/ubuntu/.puppetlabs/etc/code/environments/${PUPPET_ENVIRONMENT} \
   --hiera_config hiera.yaml

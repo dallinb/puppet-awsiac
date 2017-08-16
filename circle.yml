@@ -1,7 +1,7 @@
 ---
 machine:
   environment:
-    AWS_REGION: "eu-west-2"
+    AWS_REGION: "eu-west-1"
     FACTER_cidr_block: "192.168.0.0/16"
     FACTER_vpc_postfix: "A"
     FACTER_vpc_prefix: "D1"
