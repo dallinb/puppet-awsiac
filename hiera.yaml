@@ -3,7 +3,9 @@ defaults:
   datadir: hieradata
   data_hash: yaml_data
 hierarchy:
-  - name: "YAML hierarchy levels"
-    paths:
-      - "environment/%{environment}"
-      - "common"
+  - name: "Per environment group data"
+    path: "environment/%{environment}.yaml"
+
+  - name: "Common data"
+    path: "common.yaml"
+
