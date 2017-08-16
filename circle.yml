@@ -5,7 +5,7 @@ machine:
     FACTER_cidr_block: "192.168.0.0/16"
     FACTER_vpc_postfix: "A"
     FACTER_vpc_prefix: "D1"
-    PUPPET_ENVIRONMENT: "d1euw2a"
+    PUPPET_ENVIRONMENT: "d1euw1a"
 
 dependencies:
   cache_directories:
