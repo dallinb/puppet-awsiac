@@ -1,6 +1,2 @@
 ---
-awsiac::instances:
-  'demo-node':
-    tier: 'web'
-    tier_az: 'a'
-    tier_number: 1
+ec2_vpc_dhcp_options::domain_name: locp.co.uk
