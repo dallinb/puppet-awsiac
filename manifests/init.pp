@@ -1,10 +1,9 @@
 # Class: awsiac
 # ===========================
 class awsiac (
-  $region,
   $cidr_block  = $::cidr_block,
   $ensure      = $::ensure,
-  $vpc_postfix = $::vpc_postfix,
+  $region      = $::region,
   $vpc_prefix  = $::vpc_prefix,
   ){
   # Reverse the default resource ordering if the resources are to be 'absent'.
@@ -20,8 +19,8 @@ class awsiac (
     Ec2_vpc <| |> -> Ec2_vpc_dhcp_options <| |>
   }
 
-  $regsubst_target = upcase("${vpc_prefix}${region}${vpc_postfix}")
-  $regsubst_regexp = "-([A-Z]).*(\\d+)(${vpc_postfix})$"
+  $regsubst_target = upcase("${vpc_prefix}${region}")
+  $regsubst_regexp = "-([A-Z]).*(\\d+)$"
   $vpc = regsubst($regsubst_target, $regsubst_regexp, '\1\2\3', 'I')
   $first2octets = regsubst($cidr_block,'^(\d+)\.(\d+)\.(\d+)\.(\d+)/(\d+)$','\1.\2')
 
