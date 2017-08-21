@@ -32,6 +32,12 @@ class awsiac (
   $vpc = regsubst($regsubst_target, $regsubst_regexp, '\1\2\3', 'I')
   $first2octets = regsubst($cidr_block,'^(\d+)\.(\d+)\.(\d+)\.(\d+)/(\d+)$','\1.\2')
 
+  $web_subnet_cidr_blocks = {
+    'a' => "${first2octets}.0.0/24",
+    'b' => "${first2octets}.1.0/24",
+    'c' => "${first2octets}.2.0/24"
+  }
+
   $tags = {
     environment => downcase($vpc),
   }
@@ -78,7 +84,7 @@ class awsiac (
     ec2_vpc_subnet { "${vpc}-web1${az}-sbt":
       ensure                  => $ensure,
       region                  => $region,
-      cidr_block              => "${first2octets}.0.0/24",
+      cidr_block              => $web_subnet_cidr_blocks[$az],
       availability_zone       => "${region}a",
       map_public_ip_on_launch => true,
       route_table             => "${vpc}-rtb",

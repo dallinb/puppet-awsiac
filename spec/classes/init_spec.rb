@@ -99,8 +99,14 @@ describe 'awsiac' do
     }
 
     it {
-      should contain_ec2_vpc_subnet('TESTEUW2-web1a-sbt')
-      should contain_ec2_vpc_subnet('TESTEUW2-web1b-sbt')
+      should contain_ec2_vpc_subnet('TESTEUW2-web1a-sbt').with(
+        cidr_block: '10.42.0.0/24'
+      )
+
+      should contain_ec2_vpc_subnet('TESTEUW2-web1b-sbt').with(
+        cidr_block: '10.42.1.0/24'
+      )
+
       should contain_ec2_securitygroup('TESTEUW2-odoo-sg')
     }
     # it { should contain_ec2_instance('TESTEUW2:odoo1a') }
@@ -109,7 +115,7 @@ describe 'awsiac' do
   context 'Apply in Ireland' do
     let :params do
       {
-        cidr_block: '10.42.0.0/16',
+        cidr_block: '192.168.0.0/16',
         ensure: 'present',
         region: 'eu-west-1',
         vpc_prefix: 'test'
@@ -123,9 +129,18 @@ describe 'awsiac' do
       should contain_ec2_vpc('TESTEUW1')
       should contain_ec2_vpc_routetable('TESTEUW1-rtb')
       should contain_ec2_vpc_internet_gateway('TESTEUW1-igw')
-      should contain_ec2_vpc_subnet('TESTEUW1-web1a-sbt')
-      should contain_ec2_vpc_subnet('TESTEUW1-web1b-sbt')
-      should contain_ec2_vpc_subnet('TESTEUW1-web1c-sbt')
+      should contain_ec2_vpc_subnet('TESTEUW1-web1a-sbt').with(
+        cidr_block: '192.168.0.0/24'
+      )
+
+      should contain_ec2_vpc_subnet('TESTEUW1-web1b-sbt').with(
+        cidr_block: '192.168.1.0/24'
+      )
+
+      should contain_ec2_vpc_subnet('TESTEUW1-web1c-sbt').with(
+        cidr_block: '192.168.2.0/24'
+      )
+
       should contain_ec2_securitygroup('TESTEUW1-odoo-sg')
     }
   end
