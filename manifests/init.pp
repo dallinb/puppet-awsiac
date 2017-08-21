@@ -85,7 +85,7 @@ class awsiac (
       ensure                  => $ensure,
       region                  => $region,
       cidr_block              => $web_subnet_cidr_blocks[$az],
-      availability_zone       => "${region}a",
+      availability_zone       => "${region}${az}",
       map_public_ip_on_launch => true,
       route_table             => "${vpc}-rtb",
       vpc                     => $vpc,

@@ -100,10 +100,12 @@ describe 'awsiac' do
 
     it {
       should contain_ec2_vpc_subnet('TESTEUW2-web1a-sbt').with(
+        availability_zone: 'eu-west-2a',
         cidr_block: '10.42.0.0/24'
       )
 
       should contain_ec2_vpc_subnet('TESTEUW2-web1b-sbt').with(
+        availability_zone: 'eu-west-2b',
         cidr_block: '10.42.1.0/24'
       )
 
@@ -130,14 +132,17 @@ describe 'awsiac' do
       should contain_ec2_vpc_routetable('TESTEUW1-rtb')
       should contain_ec2_vpc_internet_gateway('TESTEUW1-igw')
       should contain_ec2_vpc_subnet('TESTEUW1-web1a-sbt').with(
+        availability_zone: 'eu-west-1a',
         cidr_block: '192.168.0.0/24'
       )
 
       should contain_ec2_vpc_subnet('TESTEUW1-web1b-sbt').with(
+        availability_zone: 'eu-west-1b',
         cidr_block: '192.168.1.0/24'
       )
 
       should contain_ec2_vpc_subnet('TESTEUW1-web1c-sbt').with(
+        availability_zone: 'eu-west-1c',
         cidr_block: '192.168.2.0/24'
       )
 
