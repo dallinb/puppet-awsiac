@@ -39,7 +39,6 @@ class awsiac (
   ec2_vpc_dhcp_options { "${vpc}-dopt":
     ensure              => $ensure,
     domain_name         => 'locp.co.uk',
-    domain_name_servers => ['8.8.8.8', '8.8.4.4'],
     region              => $region,
     tags                => $tags,
   }
