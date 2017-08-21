@@ -19,6 +19,14 @@ class awsiac (
     Ec2_vpc <| |> -> Ec2_vpc_dhcp_options <| |>
   }
 
+  case $region {
+      'eu-west-1': { $az_list = ['a', 'b', 'c'] }
+      default: {
+        $az_list = ['a', 'b']
+        warning("Assuming that region ${region} has 2 AZs.")
+      }
+  }
+
   $regsubst_target = upcase("${vpc_prefix}${region}")
   $regsubst_regexp = "-([A-Z]).*(\\d+)$"
   $vpc = regsubst($regsubst_target, $regsubst_regexp, '\1\2\3', 'I')
@@ -67,15 +75,17 @@ class awsiac (
     ],
   }
 
-  ec2_vpc_subnet { "${vpc}-web1a-sbt":
-    ensure                  => $ensure,
-    region                  => $region,
-    cidr_block              => "${first2octets}.0.0/24",
-    availability_zone       => "${region}a",
-    map_public_ip_on_launch => true,
-    route_table             => "${vpc}-rtb",
-    vpc                     => $vpc,
-    tags                    => $tags,
+  $az_list.each | String $az | {
+    ec2_vpc_subnet { "${vpc}-web1${az}-sbt":
+      ensure                  => $ensure,
+      region                  => $region,
+      cidr_block              => "${first2octets}.0.0/24",
+      availability_zone       => "${region}a",
+      map_public_ip_on_launch => true,
+      route_table             => "${vpc}-rtb",
+      vpc                     => $vpc,
+      tags                    => $tags,
+    }
   }
 
   ec2_securitygroup { "${vpc}-odoo-sg":
@@ -101,17 +111,17 @@ class awsiac (
     tags        => $tags,
   }
 
-  ec2_instance { "${vpc}:odoo1a":
-    ensure                    => $ensure,
-    region                    => $region,
-    availability_zone         => "${region}a",
-    iam_instance_profile_name => 'puppet',
-    image_id                  => 'ami-785db401',
-    instance_type             => 't2.micro',
-    key_name                  => 'puppet',
-    subnet                    => "${vpc}-web1a-sbt",
-    security_groups           => ["${vpc}-odoo-sg"],
-    tags                      => $tags,
-    user_data                 => template('awsiac/userdata.erb'),
-  }
+  # ec2_instance { "${vpc}:odoo1a":
+  #   ensure                    => $ensure,
+  #   region                    => $region,
+  #   availability_zone         => "${region}a",
+  #   iam_instance_profile_name => 'puppet',
+  #   image_id                  => 'ami-785db401',
+  #   instance_type             => 't2.micro',
+  #   key_name                  => 'puppet',
+  #   subnet                    => "${vpc}-web1a-sbt",
+  #   security_groups           => ["${vpc}-odoo-sg"],
+  #   tags                      => $tags,
+  #   user_data                 => template('awsiac/userdata.erb'),
+  # }
 }

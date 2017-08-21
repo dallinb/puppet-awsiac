@@ -23,7 +23,7 @@ describe 'awsiac' do
     it { should raise_error(Puppet::Error) }
   end
 
-  context 'Apply' do
+  context 'Apply in London' do
     let :params do
       {
         cidr_block: '10.42.0.0/16',
@@ -98,8 +98,35 @@ describe 'awsiac' do
       )
     }
 
-    it { should contain_ec2_vpc_subnet('TESTEUW2-web1a-sbt') }
-    it { should contain_ec2_securitygroup('TESTEUW2-odoo-sg') }
-    it { should contain_ec2_instance('TESTEUW2:odoo1a') }
+    it {
+      should contain_ec2_vpc_subnet('TESTEUW2-web1a-sbt')
+      should contain_ec2_vpc_subnet('TESTEUW2-web1b-sbt')
+      should contain_ec2_securitygroup('TESTEUW2-odoo-sg')
+    }
+    # it { should contain_ec2_instance('TESTEUW2:odoo1a') }
+  end
+
+  context 'Apply in Ireland' do
+    let :params do
+      {
+        cidr_block: '10.42.0.0/16',
+        ensure: 'present',
+        region: 'eu-west-1',
+        vpc_prefix: 'test'
+      }
+    end
+
+    it {
+      is_expected.to have_resource_count(8)
+      should contain_class('awsiac')
+      should contain_ec2_vpc_dhcp_options('TESTEUW1-dopt')
+      should contain_ec2_vpc('TESTEUW1')
+      should contain_ec2_vpc_routetable('TESTEUW1-rtb')
+      should contain_ec2_vpc_internet_gateway('TESTEUW1-igw')
+      should contain_ec2_vpc_subnet('TESTEUW1-web1a-sbt')
+      should contain_ec2_vpc_subnet('TESTEUW1-web1b-sbt')
+      should contain_ec2_vpc_subnet('TESTEUW1-web1c-sbt')
+      should contain_ec2_securitygroup('TESTEUW1-odoo-sg')
+    }
   end
 end
