@@ -9,7 +9,7 @@ describe 'awsiac' do
         $user_data, $iam_instance_profile_name) {}',
       'define ec2_securitygroup($ensure, $region, $vpc, $description, $ingress,
         $tags) {}',
-      'define ec2_vpc_dhcp_options($ensure, $domain_name, $domain_name_servers,
+      'define ec2_vpc_dhcp_options($ensure, $domain_name,
          $region, $tags) {}',
       'define ec2_vpc_internet_gateway($ensure, $region, $vpc, $tags) {}',
       'define ec2_vpc_routetable($ensure, $region = "", $vpc, $routes = [],
@@ -47,7 +47,7 @@ describe 'awsiac' do
     it {
       should contain_ec2_vpc_dhcp_options('TESTEUW2-dopt').with(
         ensure: 'present',
-        domain_name_servers: ['8.8.8.8', '8.8.4.4'],
+        domain_name: 'locp.co.uk',
         region: 'eu-west-2',
         tags: {
           'environment' => 'testeuw2'
