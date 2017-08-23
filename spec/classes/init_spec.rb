@@ -33,7 +33,7 @@ describe 'awsiac' do
       }
     end
 
-    it { is_expected.to have_resource_count(7) }
+    it { is_expected.to have_resource_count(11) }
 
     it {
       should contain_class('awsiac').with(
@@ -109,6 +109,26 @@ describe 'awsiac' do
         cidr_block: '10.42.1.0/24'
       )
 
+      should contain_ec2_vpc_subnet('TESTEUW2-app1a-sbt').with(
+        availability_zone: 'eu-west-2a',
+        cidr_block: '10.42.3.0/24'
+      )
+
+      should contain_ec2_vpc_subnet('TESTEUW2-app1b-sbt').with(
+        availability_zone: 'eu-west-2b',
+        cidr_block: '10.42.4.0/24'
+      )
+
+      should contain_ec2_vpc_subnet('TESTEUW2-db1a-sbt').with(
+        availability_zone: 'eu-west-2a',
+        cidr_block: '10.42.6.0/24'
+      )
+
+      should contain_ec2_vpc_subnet('TESTEUW2-db1b-sbt').with(
+        availability_zone: 'eu-west-2b',
+        cidr_block: '10.42.7.0/24'
+      )
+
       should contain_ec2_securitygroup('TESTEUW2-odoo-sg')
     }
     # it { should contain_ec2_instance('TESTEUW2:odoo1a') }
@@ -125,27 +145,20 @@ describe 'awsiac' do
     end
 
     it {
-      is_expected.to have_resource_count(8)
-      should contain_class('awsiac')
+      is_expected.to have_resource_count(14)
       should contain_ec2_vpc_dhcp_options('TESTEUW1-dopt')
       should contain_ec2_vpc('TESTEUW1')
       should contain_ec2_vpc_routetable('TESTEUW1-rtb')
       should contain_ec2_vpc_internet_gateway('TESTEUW1-igw')
-      should contain_ec2_vpc_subnet('TESTEUW1-web1a-sbt').with(
-        availability_zone: 'eu-west-1a',
-        cidr_block: '192.168.0.0/24'
-      )
-
-      should contain_ec2_vpc_subnet('TESTEUW1-web1b-sbt').with(
-        availability_zone: 'eu-west-1b',
-        cidr_block: '192.168.1.0/24'
-      )
-
-      should contain_ec2_vpc_subnet('TESTEUW1-web1c-sbt').with(
-        availability_zone: 'eu-west-1c',
-        cidr_block: '192.168.2.0/24'
-      )
-
+      should contain_ec2_vpc_subnet('TESTEUW1-web1a-sbt')
+      should contain_ec2_vpc_subnet('TESTEUW1-web1b-sbt')
+      should contain_ec2_vpc_subnet('TESTEUW1-web1c-sbt')
+      should contain_ec2_vpc_subnet('TESTEUW1-app1a-sbt')
+      should contain_ec2_vpc_subnet('TESTEUW1-app1b-sbt')
+      should contain_ec2_vpc_subnet('TESTEUW1-app1c-sbt')
+      should contain_ec2_vpc_subnet('TESTEUW1-db1a-sbt')
+      should contain_ec2_vpc_subnet('TESTEUW1-db1b-sbt')
+      should contain_ec2_vpc_subnet('TESTEUW1-db1c-sbt')
       should contain_ec2_securitygroup('TESTEUW1-odoo-sg')
     }
   end

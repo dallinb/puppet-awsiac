@@ -32,10 +32,22 @@ class awsiac (
   $vpc = regsubst($regsubst_target, $regsubst_regexp, '\1\2\3', 'I')
   $first2octets = regsubst($cidr_block,'^(\d+)\.(\d+)\.(\d+)\.(\d+)/(\d+)$','\1.\2')
 
-  $web_subnet_cidr_blocks = {
-    'a' => "${first2octets}.0.0/24",
-    'b' => "${first2octets}.1.0/24",
-    'c' => "${first2octets}.2.0/24"
+  $subnet_cidr_blocks = {
+    'web' => {
+      'a' => "${first2octets}.0.0/24",
+      'b' => "${first2octets}.1.0/24",
+      'c' => "${first2octets}.2.0/24"
+    },
+    'app' => {
+      'a' => "${first2octets}.3.0/24",
+      'b' => "${first2octets}.4.0/24",
+      'c' => "${first2octets}.5.0/24"
+    },
+    'db'  => {
+      'a' => "${first2octets}.6.0/24",
+      'b' => "${first2octets}.7.0/24",
+      'c' => "${first2octets}.8.0/24"
+    }
   }
 
   $tags = {
@@ -80,16 +92,18 @@ class awsiac (
     ],
   }
 
-  $az_list.each | String $az | {
-    ec2_vpc_subnet { "${vpc}-web1${az}-sbt":
-      ensure                  => $ensure,
-      region                  => $region,
-      cidr_block              => $web_subnet_cidr_blocks[$az],
-      availability_zone       => "${region}${az}",
-      map_public_ip_on_launch => true,
-      route_table             => "${vpc}-rtb",
-      vpc                     => $vpc,
-      tags                    => $tags,
+  ['web', 'app', 'db'].each | String $tier | {
+    $az_list.each | String $az | {
+      ec2_vpc_subnet { "${vpc}-${tier}1${az}-sbt":
+        ensure                  => $ensure,
+        region                  => $region,
+        cidr_block              => $subnet_cidr_blocks[$tier][$az],
+        availability_zone       => "${region}${az}",
+        map_public_ip_on_launch => true,
+        route_table             => "${vpc}-rtb",
+        vpc                     => $vpc,
+        tags                    => $tags,
+      }
     }
   }
 
