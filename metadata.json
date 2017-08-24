@@ -1,20 +1,21 @@
 {
-	"name": "locp-awsiac",
-	"version": "0.1.0",
-	"author": "locp",
-	"summary": "Puppet, Amazon Web Services (AWS) and Infrastucture as Code (IaC)",
-	"license": "BSD-3-Clause",
-	"source": "https://github.com/dallinb/puppet-awsiac/tree/demo-apply",
-	"project_page": "https://github.com/dallinb/puppet-awsiac/tree/demo-apply",
-	"issues_url": "https://github.com/dallinb/puppet-awsiac/tree/demo-apply/issues",
-	"dependencies": [{
-			"name": "puppetlabs-stdlib",
-			"version_requirement": ">= 3.0.0 < 5.0.0"
-		},
-		{
-			"name": "puppetlabs-aws",
-			"version_requirement": ">= 2.0.0 < 3.0.0"
-		}
-	],
-	"data_provider": null
+  "name": "locp-awsiac",
+  "version": "0.1.0",
+  "author": "locp",
+  "summary": "Puppet, Amazon Web Services (AWS) and Infrastucture as Code (IaC)",
+  "license": "BSD-3-Clause",
+  "source": "https://github.com/dallinb/puppet-awsiac/tree/demo-apply",
+  "project_page": "https://github.com/dallinb/puppet-awsiac/tree/demo-apply",
+  "issues_url": "https://github.com/dallinb/puppet-awsiac/tree/demo-apply/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 3.0.0 < 5.0.0"
+    },
+    {
+      "name": "puppetlabs-aws",
+      "version_requirement": ">= 2.0.0 < 3.0.0"
+    }
+  ],
+  "data_provider": null
 }

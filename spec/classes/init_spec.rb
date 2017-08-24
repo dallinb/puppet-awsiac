@@ -50,7 +50,8 @@ describe 'awsiac' do
         domain_name: 'locp.co.uk',
         region: 'eu-west-2',
         tags: {
-          'environment' => 'testeuw2'
+          'environment' => 'testeuw2',
+          'version'     => '42'
         }
       )
     }
@@ -62,7 +63,8 @@ describe 'awsiac' do
         dhcp_options: 'TESTEUW2-dopt',
         region: 'eu-west-2',
         tags: {
-          'environment' => 'testeuw2'
+          'environment' => 'testeuw2',
+          'version'     => '42'
         }
       )
     }
@@ -73,7 +75,8 @@ describe 'awsiac' do
         region: 'eu-west-2',
         vpc: 'TESTEUW2',
         tags: {
-          'environment' => 'testeuw2'
+          'environment' => 'testeuw2',
+          'version'     => '42'
         },
         routes: [
           {
@@ -93,7 +96,8 @@ describe 'awsiac' do
         region: 'eu-west-2',
         vpc: 'TESTEUW2',
         tags: {
-          'environment' => 'testeuw2'
+          'environment' => 'testeuw2',
+          'version'     => '42'
         }
       )
     }

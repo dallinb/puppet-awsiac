@@ -12,6 +12,10 @@ RSpec.configure do |config|
       f.stubbed.with('TESTEUW2').returns('testeuw2')
     end
 
+    MockFunction.new('load_module_metadata') do |f|
+      f.stubbed.with('awsiac').returns('version' => 42)
+    end
+
     MockFunction.new('upcase') do |f|
       f.stubbed.with('testeu-west-1').returns('TESTEU-WEST-1')
       f.stubbed.with('testeu-west-2').returns('TESTEU-WEST-2')

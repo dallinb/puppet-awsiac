@@ -51,3 +51,6 @@ Gemfile.lock
 
 ## E-YAML
 /keys/
+
+## Puppet
+/spec/fixtures/

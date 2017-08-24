@@ -31,6 +31,7 @@ class awsiac (
   $regsubst_regexp = "-([A-Z]).*(\\d+)$"
   $vpc = regsubst($regsubst_target, $regsubst_regexp, '\1\2\3', 'I')
   $first2octets = regsubst($cidr_block,'^(\d+)\.(\d+)\.(\d+)\.(\d+)/(\d+)$','\1.\2')
+  $metadata = load_module_metadata('awsiac')
 
   $subnet_cidr_blocks = {
     'web' => {
@@ -52,6 +53,7 @@ class awsiac (
 
   $tags = {
     environment => downcase($vpc),
+    version     => $metadata['version']
   }
 
   ec2_vpc_dhcp_options { "${vpc}-dopt":
