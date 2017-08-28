@@ -133,9 +133,8 @@ describe 'awsiac' do
         cidr_block: '10.42.7.0/24'
       )
 
-      should contain_ec2_securitygroup('TESTEUW2-odoo-sg')
+      should contain_ec2_securitygroup('TESTEUW2-www-sg')
     }
-    # it { should contain_ec2_instance('TESTEUW2:odoo1a') }
   end
 
   context 'Apply in Ireland' do
@@ -163,7 +162,7 @@ describe 'awsiac' do
       should contain_ec2_vpc_subnet('TESTEUW1-db1a-sbt')
       should contain_ec2_vpc_subnet('TESTEUW1-db1b-sbt')
       should contain_ec2_vpc_subnet('TESTEUW1-db1c-sbt')
-      should contain_ec2_securitygroup('TESTEUW1-odoo-sg')
+      should contain_ec2_securitygroup('TESTEUW1-www-sg')
     }
   end
 end

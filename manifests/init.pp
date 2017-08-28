@@ -109,11 +109,11 @@ class awsiac (
     }
   }
 
-  ec2_securitygroup { "${vpc}-odoo-sg":
+  ec2_securitygroup { "${vpc}-www-sg":
     ensure      => $ensure,
     region      => $region,
     vpc         => $vpc,
-    description => 'Security group for the odoo role',
+    description => 'Security group for the www role',
     ingress     => [
       {
         protocol => 'tcp',
