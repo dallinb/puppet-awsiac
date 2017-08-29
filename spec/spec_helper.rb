@@ -7,6 +7,24 @@ RSpec.configure do |config|
   config.raise_errors_for_deprecations!
 
   config.before(:each) do
+    MockFunction.new('concat') do |f|
+      f.stubbed.with([], 'TESTEUW1-app1a-sbt').returns(['TESTEUW1-app1a-sbt'])
+      f.stubbed.with([], 'TESTEUW1-app1b-sbt').returns(['TESTEUW1-app1b-sbt'])
+      f.stubbed.with([], 'TESTEUW1-app1c-sbt').returns(['TESTEUW1-app1c-sbt'])
+      f.stubbed.with([], 'TESTEUW1-db1a-sbt').returns(['TESTEUW1-db1a-sbt'])
+      f.stubbed.with([], 'TESTEUW1-db1b-sbt').returns(['TESTEUW1-db1b-sbt'])
+      f.stubbed.with([], 'TESTEUW1-db1c-sbt').returns(['TESTEUW1-db1c-sbt'])
+      f.stubbed.with([], 'TESTEUW1-web1a-sbt').returns(['TESTEUW1-web1a-sbt'])
+      f.stubbed.with([], 'TESTEUW1-web1b-sbt').returns(['TESTEUW1-web1b-sbt'])
+      f.stubbed.with([], 'TESTEUW1-web1c-sbt').returns(['TESTEUW1-web1c-sbt'])
+      f.stubbed.with([], 'TESTEUW2-app1a-sbt').returns(['TESTEUW2-app1a-sbt'])
+      f.stubbed.with([], 'TESTEUW2-app1b-sbt').returns(['TESTEUW2-app1b-sbt'])
+      f.stubbed.with([], 'TESTEUW2-db1a-sbt').returns(['TESTEUW2-db1a-sbt'])
+      f.stubbed.with([], 'TESTEUW2-db1b-sbt').returns(['TESTEUW2-db1b-sbt'])
+      f.stubbed.with([], 'TESTEUW2-web1a-sbt').returns(['TESTEUW2-web1a-sbt'])
+      f.stubbed.with([], 'TESTEUW2-web1b-sbt').returns(['TESTEUW2-web1b-sbt'])
+    end
+
     MockFunction.new('downcase') do |f|
       f.stubbed.with('TESTEUW1').returns('testeuw1')
       f.stubbed.with('TESTEUW2').returns('testeuw2')

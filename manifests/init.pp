@@ -51,6 +51,24 @@ class awsiac (
     }
   }
 
+  $stack_data = {
+    'web' => {
+      'a' => [],
+      'b' => [],
+      'c' => []
+    },
+    'app' => {
+      'a' => [],
+      'b' => [],
+      'c' => []
+    },
+    'db'  => {
+      'a' => [],
+      'b' => [],
+      'c' => []
+    }
+  }
+
   $tags = {
     environment => downcase($vpc),
     version     => $metadata['version']
@@ -96,6 +114,8 @@ class awsiac (
 
   ['web', 'app', 'db'].each | String $tier | {
     $az_list.each | String $az | {
+      concat($stack_data[$tier][$az], "${vpc}-${tier}1${az}-sbt")
+
       ec2_vpc_subnet { "${vpc}-${tier}1${az}-sbt":
         ensure                  => $ensure,
         region                  => $region,
@@ -132,6 +152,9 @@ class awsiac (
     tags        => $tags,
   }
 
+  notify { 'DEBUG':
+    message => inline_template('<%= @stack_data.to_s %>'),
+  }
   # ec2_instance { "${vpc}:odoo1a":
   #   ensure                    => $ensure,
   #   region                    => $region,

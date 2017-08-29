@@ -33,7 +33,7 @@ describe 'awsiac' do
       }
     end
 
-    it { is_expected.to have_resource_count(11) }
+    it { is_expected.to have_resource_count(12) }
 
     it {
       should contain_class('awsiac').with(
@@ -148,7 +148,7 @@ describe 'awsiac' do
     end
 
     it {
-      is_expected.to have_resource_count(14)
+      is_expected.to have_resource_count(15)
       should contain_ec2_vpc_dhcp_options('TESTEUW1-dopt')
       should contain_ec2_vpc('TESTEUW1')
       should contain_ec2_vpc_routetable('TESTEUW1-rtb')
@@ -163,6 +163,7 @@ describe 'awsiac' do
       should contain_ec2_vpc_subnet('TESTEUW1-db1b-sbt')
       should contain_ec2_vpc_subnet('TESTEUW1-db1c-sbt')
       should contain_ec2_securitygroup('TESTEUW1-www-sg')
+      should contain_notify('DEBUG')
     }
   end
 end
