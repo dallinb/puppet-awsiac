@@ -51,24 +51,6 @@ class awsiac (
     }
   }
 
-  $stack_data = {
-    'web' => {
-      'a' => [],
-      'b' => [],
-      'c' => []
-    },
-    'app' => {
-      'a' => [],
-      'b' => [],
-      'c' => []
-    },
-    'db'  => {
-      'a' => [],
-      'b' => [],
-      'c' => []
-    }
-  }
-
   $tags = {
     environment => downcase($vpc),
     version     => $metadata['version']
@@ -114,8 +96,6 @@ class awsiac (
 
   ['web', 'app', 'db'].each | String $tier | {
     $az_list.each | String $az | {
-      concat($stack_data[$tier][$az], "${vpc}-${tier}1${az}-sbt")
-
       ec2_vpc_subnet { "${vpc}-${tier}1${az}-sbt":
         ensure                  => $ensure,
         region                  => $region,
@@ -126,6 +106,34 @@ class awsiac (
         vpc                     => $vpc,
         tags                    => $tags,
       }
+    }
+  }
+
+  case count($az_list) {
+    2: {
+      $app_subnets = ["${vpc}-app1a-sbt", "${vpc}-app1b-sbt"]
+      $db_subnets  = ["${vpc}-db1a-sbt", "${vpc}-db1b-sbt"]
+      $web_subnets = ["${vpc}-web1a-sbt", "${vpc}-web1b-sbt"]
+    }
+    3: {
+      $app_subnets = ["${vpc}-app1a-sbt", "${vpc}-app1b-sbt", "${vpc}-app1c-sbt"]
+      $db_subnets  = ["${vpc}-db1a-sbt", "${vpc}-db1b-sbt", "${vpc}-db1c-sbt"]
+      $web_subnets = ["${vpc}-web1a-sbt", "${vpc}-web1b-sbt", "${vpc}-web1c-sbt"]
+    }
+    default: {
+      fail('Unsupported number of availability zones')
+    }
+  }
+
+  $subnet_names = {
+    'app' => {
+      'subnet_names' => $app_subnets,
+    },
+    'db' => {
+      'subnet_names' => $db_subnets,
+    },
+    'web' => {
+      'subnet_names' => $web_subnets,
     }
   }
 
@@ -152,9 +160,8 @@ class awsiac (
     tags        => $tags,
   }
 
-  notify { 'DEBUG':
-    message => inline_template('<%= @stack_data.to_s %>'),
-  }
+  $subnet_data = merge($subnet_cidr_blocks, $subnet_names)
+  notify { inline_template('DEBUG: <%= @subnet_data.to_s %>'): }
   # ec2_instance { "${vpc}:odoo1a":
   #   ensure                    => $ensure,
   #   region                    => $region,

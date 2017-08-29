@@ -163,7 +163,7 @@ describe 'awsiac' do
       should contain_ec2_vpc_subnet('TESTEUW1-db1b-sbt')
       should contain_ec2_vpc_subnet('TESTEUW1-db1c-sbt')
       should contain_ec2_securitygroup('TESTEUW1-www-sg')
-      should contain_notify('DEBUG')
+      # should contain_notify('DEBUG')
     }
   end
 end

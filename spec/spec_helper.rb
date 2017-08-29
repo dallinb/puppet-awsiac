@@ -25,6 +25,11 @@ RSpec.configure do |config|
       f.stubbed.with([], 'TESTEUW2-web1b-sbt').returns(['TESTEUW2-web1b-sbt'])
     end
 
+    MockFunction.new('count') do |f|
+      f.stubbed.with(%w[a b]).returns(2)
+      f.stubbed.with(%w[a b c]).returns(3)
+    end
+
     MockFunction.new('downcase') do |f|
       f.stubbed.with('TESTEUW1').returns('testeuw1')
       f.stubbed.with('TESTEUW2').returns('testeuw2')
@@ -32,6 +37,10 @@ RSpec.configure do |config|
 
     MockFunction.new('load_module_metadata') do |f|
       f.stubbed.with('awsiac').returns('version' => 42)
+    end
+
+    MockFunction.new('merge') do |f|
+      f.stubbed.with({}, {}).returns({})
     end
 
     MockFunction.new('upcase') do |f|
