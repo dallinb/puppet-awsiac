@@ -39,10 +39,6 @@ RSpec.configure do |config|
       f.stubbed.with('awsiac').returns('version' => 42)
     end
 
-    MockFunction.new('merge') do |f|
-      f.stubbed.with({}, {}).returns({})
-    end
-
     MockFunction.new('upcase') do |f|
       f.stubbed.with('testeu-west-1').returns('TESTEU-WEST-1')
       f.stubbed.with('testeu-west-2').returns('TESTEU-WEST-2')

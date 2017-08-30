@@ -35,19 +35,34 @@ class awsiac (
 
   $subnet_cidr_blocks = {
     'web' => {
-      'a' => "${first2octets}.0.0/24",
-      'b' => "${first2octets}.1.0/24",
-      'c' => "${first2octets}.2.0/24"
+      'a'     => "${first2octets}.0.0/24",
+      'b'     => "${first2octets}.1.0/24",
+      'c'     => "${first2octets}.2.0/24",
+      'names' => [
+        "${vpc}-web1a-sbt",
+        "${vpc}-web1b-sbt",
+        "${vpc}-web1c-sbt"
+      ]
     },
     'app' => {
-      'a' => "${first2octets}.3.0/24",
-      'b' => "${first2octets}.4.0/24",
-      'c' => "${first2octets}.5.0/24"
+      'a'     => "${first2octets}.3.0/24",
+      'b'     => "${first2octets}.4.0/24",
+      'c'     => "${first2octets}.5.0/24",
+      'names' => [
+        "${vpc}-app1a-sbt",
+        "${vpc}-app1b-sbt",
+        "${vpc}-app1c-sbt"
+      ]
     },
     'db'  => {
-      'a' => "${first2octets}.6.0/24",
-      'b' => "${first2octets}.7.0/24",
-      'c' => "${first2octets}.8.0/24"
+      'a'     => "${first2octets}.6.0/24",
+      'b'     => "${first2octets}.7.0/24",
+      'c'     => "${first2octets}.8.0/24",
+      'names' => [
+        "${vpc}-db1a-sbt",
+        "${vpc}-db1b-sbt",
+        "${vpc}-db1c-sbt"
+      ]
     }
   }
 
@@ -111,29 +126,38 @@ class awsiac (
 
   case count($az_list) {
     2: {
-      $app_subnets = ["${vpc}-app1a-sbt", "${vpc}-app1b-sbt"]
-      $db_subnets  = ["${vpc}-db1a-sbt", "${vpc}-db1b-sbt"]
-      $web_subnets = ["${vpc}-web1a-sbt", "${vpc}-web1b-sbt"]
+      $subnet_data = {
+        'app' => {
+          'a'     => $subnet_cidr_blocks['app']['a'],
+          'b'     => $subnet_cidr_blocks['app']['b'],
+          'names' => [
+            $subnet_cidr_blocks['app']['names'][0],
+            $subnet_cidr_blocks['app']['names'][1]
+          ]
+        },
+        'db'  => {
+          'a'     => $subnet_cidr_blocks['db']['a'],
+          'b'     => $subnet_cidr_blocks['db']['b'],
+          'names' => [
+            $subnet_cidr_blocks['db']['names'][0],
+            $subnet_cidr_blocks['db']['names'][1]
+          ]
+        },
+        'web' => {
+          'a'     => $subnet_cidr_blocks['web']['a'],
+          'b'     => $subnet_cidr_blocks['web']['b'],
+          'names' => [
+            $subnet_cidr_blocks['web']['names'][0],
+            $subnet_cidr_blocks['web']['names'][1]
+          ]
+        }
+      }
     }
     3: {
-      $app_subnets = ["${vpc}-app1a-sbt", "${vpc}-app1b-sbt", "${vpc}-app1c-sbt"]
-      $db_subnets  = ["${vpc}-db1a-sbt", "${vpc}-db1b-sbt", "${vpc}-db1c-sbt"]
-      $web_subnets = ["${vpc}-web1a-sbt", "${vpc}-web1b-sbt", "${vpc}-web1c-sbt"]
+      $subnet_data = $subnet_cidr_blocks
     }
     default: {
       fail('Unsupported number of availability zones')
-    }
-  }
-
-  $subnet_names = {
-    'app' => {
-      'subnet_names' => $app_subnets,
-    },
-    'db' => {
-      'subnet_names' => $db_subnets,
-    },
-    'web' => {
-      'subnet_names' => $web_subnets,
     }
   }
 
@@ -160,8 +184,6 @@ class awsiac (
     tags        => $tags,
   }
 
-  $subnet_data = merge($subnet_cidr_blocks, $subnet_names)
-  notify { inline_template('DEBUG: <%= @subnet_data.to_s %>'): }
   # ec2_instance { "${vpc}:odoo1a":
   #   ensure                    => $ensure,
   #   region                    => $region,
