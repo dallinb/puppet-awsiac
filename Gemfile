@@ -1,7 +1,7 @@
 source ENV['GEM_SOURCE'] || 'https://rubygems.org'
 
 puppetversion = ENV.key?('PUPPET_VERSION') ? ENV['PUPPET_VERSION'] : ['< 5.0']
-gem 'aws-sdk-core', '<= 3.0.0'
+gem 'aws-sdk-core', '< 3.0.0'
 gem 'CFPropertyList'
 gem 'facter', '>= 1.7.0'
 gem 'hiera-eyaml'
