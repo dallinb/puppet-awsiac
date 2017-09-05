@@ -42,7 +42,7 @@ describe 'awsiac' do
       }
     end
 
-    it { is_expected.to have_resource_count(11) }
+    it { is_expected.to have_resource_count(14) }
 
     it {
       should contain_class('awsiac').with(
@@ -60,7 +60,7 @@ describe 'awsiac' do
         region: 'eu-west-2',
         tags: {
           'environment' => 'testeuw2',
-          'version'     => '42'
+          'version'     => '0.1.0'
         }
       )
     }
@@ -73,7 +73,7 @@ describe 'awsiac' do
         region: 'eu-west-2',
         tags: {
           'environment' => 'testeuw2',
-          'version'     => '42'
+          'version'     => '0.1.0'
         }
       )
     }
@@ -85,7 +85,7 @@ describe 'awsiac' do
         vpc: 'TESTEUW2',
         tags: {
           'environment' => 'testeuw2',
-          'version'     => '42'
+          'version'     => '0.1.0'
         },
         routes: [
           {
@@ -106,7 +106,7 @@ describe 'awsiac' do
         vpc: 'TESTEUW2',
         tags: {
           'environment' => 'testeuw2',
-          'version'     => '42'
+          'version'     => '0.1.0'
         }
       )
     }
@@ -154,15 +154,15 @@ describe 'awsiac' do
         image_id: 'ami-785db401',
         instance_type: 't2.micro',
         key_name: 'puppet',
-        subnet: 'TESTEUW2-www1a-sbt',
+        subnet: 'TESTEUW2-web1a-sbt',
         security_groups: ['TESTEUW2-www-sg'],
         tags: {
           'environment' => 'testeuw2',
-          'version'     => '42',
+          'version'     => '0.1.0',
           'role'        => 'www'
         }
       )
-      should contain_ec2_instance('TESTEUW2-www2').with(
+      should contain_ec2_instance('TESTEUW2-www2.locp.co.uk').with(
         ensure: 'present',
         region: 'eu-west-2',
         availability_zone: 'eu-west-2b',
@@ -170,15 +170,15 @@ describe 'awsiac' do
         image_id: 'ami-785db401',
         instance_type: 't2.micro',
         key_name: 'puppet',
-        subnet: 'TESTEUW2-www1b-sbt',
+        subnet: 'TESTEUW2-web1b-sbt',
         security_groups: ['TESTEUW2-www-sg'],
         tags: {
           'environment' => 'testeuw2',
-          'version'     => '42',
+          'version'     => '0.1.0',
           'role'        => 'www'
         }
       )
-      should contain_ec2_instance('TESTEUW2-www3').with(
+      should contain_ec2_instance('TESTEUW2-www3.locp.co.uk').with(
         ensure: 'present',
         region: 'eu-west-2',
         availability_zone: 'eu-west-2a',
@@ -186,11 +186,11 @@ describe 'awsiac' do
         image_id: 'ami-785db401',
         instance_type: 't2.micro',
         key_name: 'puppet',
-        subnet: 'TESTEUW2-www1a-sbt',
+        subnet: 'TESTEUW2-web1a-sbt',
         security_groups: ['TESTEUW2-www-sg'],
         tags: {
           'environment' => 'testeuw2',
-          'version'     => '42',
+          'version'     => '0.1.0',
           'role'        => 'www'
         }
       )
@@ -217,7 +217,7 @@ describe 'awsiac' do
     end
 
     it {
-      is_expected.to have_resource_count(14)
+      is_expected.to have_resource_count(17)
       should contain_ec2_vpc_dhcp_options('TESTEUW1-dopt')
       should contain_ec2_vpc('TESTEUW1')
       should contain_ec2_vpc_routetable('TESTEUW1-rtb')
@@ -243,15 +243,15 @@ describe 'awsiac' do
         image_id: 'ami-785db401',
         instance_type: 't2.micro',
         key_name: 'puppet',
-        subnet: 'TESTEUW1-www1a-sbt',
+        subnet: 'TESTEUW1-web1a-sbt',
         security_groups: ['TESTEUW1-www-sg'],
         tags: {
           'environment' => 'testeuw1',
-          'version'     => '42',
+          'version'     => '0.1.0',
           'role'        => 'www'
         }
       )
-      should contain_ec2_instance('TESTEUW1-www2').with(
+      should contain_ec2_instance('TESTEUW1-www2.locp.co.uk').with(
         ensure: 'present',
         region: 'eu-west-1',
         availability_zone: 'eu-west-1b',
@@ -259,15 +259,15 @@ describe 'awsiac' do
         image_id: 'ami-785db401',
         instance_type: 't2.micro',
         key_name: 'puppet',
-        subnet: 'TESTEUW1-www1b-sbt',
+        subnet: 'TESTEUW1-web1b-sbt',
         security_groups: ['TESTEUW1-www-sg'],
         tags: {
           'environment' => 'testeuw1',
-          'version'     => '42',
+          'version'     => '0.1.0',
           'role'        => 'www'
         }
       )
-      should contain_ec2_instance('TESTEUW1-www3').with(
+      should contain_ec2_instance('TESTEUW1-www3.locp.co.uk').with(
         ensure: 'present',
         region: 'eu-west-1',
         availability_zone: 'eu-west-1c',
@@ -275,11 +275,11 @@ describe 'awsiac' do
         image_id: 'ami-785db401',
         instance_type: 't2.micro',
         key_name: 'puppet',
-        subnet: 'TESTEUW1-www1c-sbt',
+        subnet: 'TESTEUW1-web1c-sbt',
         security_groups: ['TESTEUW1-www-sg'],
         tags: {
           'environment' => 'testeuw1',
-          'version'     => '42',
+          'version'     => '0.1.0',
           'role'        => 'www'
         }
       )

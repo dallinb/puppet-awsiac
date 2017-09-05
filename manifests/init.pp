@@ -186,31 +186,20 @@ class awsiac (
   }
 
   $instances.keys().each | String $role | {
-    range('1', $instances[$role]['number_of_instances']).each | Integer $num | {
-      ec2_instance { "${vpc}-${role}${num}":
-        ensure            => $instances[$role]['present'],
-        region            => $region,
-        availability_zone => $az_list[ (count($az_list) % $num) - 1 ],
-        image_id          => $instances[$role]['image_id'],
-        instance_type     => $instances[$role]['instance_type'],
-        key_name          => 'puppet',
-        subnet            => 'SNAFU',
-        security_groups   => [ "${vpc}-${role}-sg"],
-        
+    range('1', $instances[$role]['number_of_instances']).each | Integer $n | {
+      ec2_instance { "${vpc}-${role}${n}.locp.co.uk":
+        ensure                    => $instances[$role]['ensure'],
+        region                    => $region,
+        availability_zone         => "${region}${az_list[ $n % count($az_list) - 1 ]}",
+        iam_instance_profile_name => 'puppet',
+        image_id                  => $instances[$role]['image_id'],
+        instance_type             => $instances[$role]['instance_type'],
+        key_name                  => 'puppet',
+        subnet                    => $subnet_data[$instances[$role]['tier']]['names'][$n % count($az_list) - 1],
+        security_groups           => [ "${vpc}-${role}-sg"],
+        tags                      => merge($tags, { 'role' => $role }),
+        user_data                 => template("awsiac/${environment}/${role}/userdata.erb"),
       }
     }
   }
-  # ec2_instance { "${vpc}:odoo1a":
-  #   ensure                    => $ensure,
-  #   region                    => $region,
-  #   availability_zone         => "${region}a",
-  #   iam_instance_profile_name => 'puppet',
-  #   image_id                  => 'ami-785db401',
-  #   instance_type             => 't2.micro',
-  #   key_name                  => 'puppet',
-  #   subnet                    => "${vpc}-web1a-sbt",
-  #   security_groups           => ["${vpc}-odoo-sg"],
-  #   tags                      => $tags,
-  #   user_data                 => template('awsiac/userdata.erb'),
-  # }
 }
