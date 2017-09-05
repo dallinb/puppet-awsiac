@@ -2,5 +2,6 @@
 AllCops:
   Exclude:
     - 'vendor/**/*'
+    - 'spec/fixtures/modules/**/*'
 Metrics/BlockLength:
   Enabled: false

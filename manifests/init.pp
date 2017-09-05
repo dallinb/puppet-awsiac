@@ -3,6 +3,7 @@
 class awsiac (
   $cidr_block  = $::cidr_block,
   $ensure      = $::ensure,
+  $instances   = {},
   $region      = $::region,
   $vpc_prefix  = $::vpc_prefix,
   ){
@@ -184,6 +185,21 @@ class awsiac (
     tags        => $tags,
   }
 
+  $instances.keys().each | String $role | {
+    range('1', $instances[$role]['number_of_instances']).each | Integer $num | {
+      ec2_instance { "${vpc}-${role}${num}":
+        ensure            => $instances[$role]['present'],
+        region            => $region,
+        availability_zone => $az_list[ (count($az_list) % $num) - 1 ],
+        image_id          => $instances[$role]['image_id'],
+        instance_type     => $instances[$role]['instance_type'],
+        key_name          => 'puppet',
+        subnet            => 'SNAFU',
+        security_groups   => [ "${vpc}-${role}-sg"],
+        
+      }
+    }
+  }
   # ec2_instance { "${vpc}:odoo1a":
   #   ensure                    => $ensure,
   #   region                    => $region,
