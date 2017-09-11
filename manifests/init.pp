@@ -6,6 +6,7 @@ class awsiac (
   $instances   = {},
   $region      = $::region,
   $vpc_prefix  = $::vpc_prefix,
+  $zone        = undef,
   ){
   # Reverse the default resource ordering if the resources are to be 'absent'.
   if $ensure == 'absent' {
@@ -72,19 +73,27 @@ class awsiac (
     version     => $metadata['version']
   }
 
-  ec2_vpc_dhcp_options { "${vpc}-dopt":
-    ensure      => $ensure,
-    domain_name => 'locp.co.uk',
-    region      => $region,
-    tags        => $tags,
-  }
-
-  ec2_vpc { $vpc:
-    ensure       => $ensure,
-    cidr_block   => $cidr_block,
-    dhcp_options => "${vpc}-dopt",
-    region       => $region,
-    tags         => $tags,
+  if $zone {
+    ec2_vpc_dhcp_options { "${vpc}-dopt":
+      ensure      => $ensure,
+      domain_name => $zone,
+      region      => $region,
+      tags        => $tags,
+    }
+    ec2_vpc { $vpc:
+      ensure       => $ensure,
+      cidr_block   => $cidr_block,
+      dhcp_options => "${vpc}-dopt",
+      region       => $region,
+      tags         => $tags,
+    }
+  } else {
+    ec2_vpc { $vpc:
+      ensure     => $ensure,
+      cidr_block => $cidr_block,
+      region     => $region,
+      tags       => $tags,
+    }
   }
 
   ec2_vpc_internet_gateway { "${vpc}-igw":
@@ -187,7 +196,13 @@ class awsiac (
 
   $instances.keys().each | String $role | {
     range('1', $instances[$role]['number_of_instances']).each | Integer $n | {
-      ec2_instance { "${vpc}-${role}${n}.locp.co.uk":
+      if $zone {
+        $instance_name = "${vpc}-${role}${n}.${zone}"
+      } else {
+        $instance_name = "${vpc}-${role}${n}"
+      }
+
+      ec2_instance { $instance_name:
         ensure                    => $instances[$role]['ensure'],
         region                    => $region,
         availability_zone         => "${region}${az_list[ $n % count($az_list) - 1 ]}",

@@ -3,7 +3,8 @@ describe 'awsiac' do
   let(:pre_condition) do
     [
       'class aws () {}',
-      'define ec2_vpc ($ensure, $dhcp_options, $region, $cidr_block, $tags) {}',
+      'define ec2_vpc ($ensure, $dhcp_options=nil, $region, $cidr_block,
+        $tags) {}',
       'define ec2_instance($ensure, $region, $availability_zone, $image_id,
         $instance_type, $key_name, $subnet, $security_groups, $tags,
         $user_data, $iam_instance_profile_name) {}',
@@ -30,6 +31,7 @@ describe 'awsiac' do
         ensure: 'present',
         region: 'eu-west-2',
         vpc_prefix: 'test',
+        zone: 'locp.co.uk',
         instances: {
           'www' => {
             'ensure'              => 'present',
@@ -204,6 +206,7 @@ describe 'awsiac' do
         ensure: 'present',
         region: 'eu-west-1',
         vpc_prefix: 'test',
+        zone: 'locp.co.uk',
         instances: {
           'www' => {
             'ensure'              => 'present',

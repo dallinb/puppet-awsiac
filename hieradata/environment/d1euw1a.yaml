@@ -1,2 +1,3 @@
 ---
 awsiac::region: 'eu-west-1'
+awsiac::zone: 'locp.co.uk'
