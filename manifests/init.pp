@@ -202,8 +202,14 @@ class awsiac (
         $instance_name = "${vpc}-${role}${n}"
       }
 
+      if $ensure == 'absent' {
+        $instance_ensure = 'absent'
+      } else {
+        $instance_ensure = $instances[$role]['ensure']
+      }
+
       ec2_instance { $instance_name:
-        ensure                    => $instances[$role]['ensure'],
+        ensure                    => $instance_ensure,
         region                    => $region,
         availability_zone         => "${region}${az_list[ $n % count($az_list) - 1 ]}",
         iam_instance_profile_name => 'puppet',
