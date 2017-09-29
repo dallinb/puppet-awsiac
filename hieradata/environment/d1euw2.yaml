@@ -1,3 +1,10 @@
 ---
 awsiac::region: 'eu-west-2'
 awsiac::zone: 'locp.co.uk'
+awsiac::instances:
+  - www:
+    ensure: present
+    image_id: 'ami-785db401'
+    instance_type: 't2.micro'
+    number_of_instances: 1
+    tier: web
