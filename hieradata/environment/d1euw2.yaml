@@ -4,7 +4,7 @@ awsiac::zone: 'locp.co.uk'
 awsiac::instances:
   www:
     ensure: present
-    image_id: 'ami-785db401'
+    image_id: 'ami-996372fd'
     instance_type: 't2.micro'
     number_of_instances: 1
     tier: web
