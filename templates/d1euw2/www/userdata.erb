@@ -27,4 +27,4 @@ s3cmd get --region eu-west-2 s3://locp-puppet/Puppetfiles/<%= @environment %>/<%
 librarian-puppet install
 _EOF
 
-/bin/bash /root/user_data.sh
+/bin/bash /root/user_data.sh > /var/log/user_data.sh 2>&1
