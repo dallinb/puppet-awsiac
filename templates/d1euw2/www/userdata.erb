@@ -24,7 +24,7 @@ bundle install
 
 # Configure Git
 echo '[credential]' > /root/.gitconfig
-echo '  helper = !aws --region eu-west-2 codecommit credential-helper $@' >> /root/.gitconfig
+echo '  helper = !aws --region eu-west-2 codecommit credential-helper \$@' >> /root/.gitconfig
 echo '  UseHttpPath = true' >> /root/.gitconfig
 
 # Install Puppet modules
