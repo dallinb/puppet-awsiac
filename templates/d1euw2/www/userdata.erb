@@ -22,9 +22,14 @@ cd /etc/puppetlabs/puppet
 s3cmd get --region eu-west-2 s3://locp-puppet/Gemfiles/<%= @environment %>/<%= @role %>/Gemfile Gemfile
 bundle install
 
+# Configure Git
+echo "[credential]" > /root/.gitconfig
+echo "  helper = !aws --region eu-west-2 codecommit credential-helper $@" >> /root/.gitconfig
+echo "  UseHttpPath = true" >> /root/.gitconfig
+
 # Install Puppet modules
 s3cmd get --region eu-west-2 s3://locp-puppet/Puppetfiles/<%= @environment %>/<%= @role %>/Puppetfile Puppetfile
-librarian-puppet install
+librarian-puppet install --version
 _EOF
 
 /bin/bash /root/user_data.sh > /var/log/user_data.sh 2>&1
