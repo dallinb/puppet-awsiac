@@ -75,10 +75,11 @@ class awsiac (
 
   if $zone {
     ec2_vpc_dhcp_options { "${vpc}-dopt":
-      ensure      => $ensure,
-      domain_name => $zone,
-      region      => $region,
-      tags        => $tags,
+      ensure              => $ensure,
+      domain_name         => $zone,
+      domain_name_servers => 'AmazonProvidedDNS',
+      region              => $region,
+      tags                => $tags,
     }
     ec2_vpc { $vpc:
       ensure       => $ensure,
