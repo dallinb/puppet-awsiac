@@ -1,7 +1,7 @@
 #!/bin/bash
 cd /tmp
-echo "<%= $fqdn %>" > /etc/hostname
-hostname "<%= $fqdn %>"
+echo "<%= @instance_name %>" > /etc/hostname
+hostname "<%= @instance_name %>"
 wget https://apt.puppetlabs.com/puppetlabs-release-pc1-wheezy.deb
 sudo dpkg -i puppetlabs-release-pc1-wheezy.deb
 sudo apt-get update
