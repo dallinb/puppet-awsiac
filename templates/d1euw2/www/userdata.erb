@@ -1,10 +1,25 @@
 #!/bin/bash
+export PATH=/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:$PATH
+
+# Install Puppet
 cd /tmp
 echo "<%= @instance_name %>" > /etc/hostname
 hostname "<%= @instance_name %>"
 wget https://apt.puppetlabs.com/puppetlabs-release-pc1-wheezy.deb
 sudo dpkg -i puppetlabs-release-pc1-wheezy.deb
 sudo apt-get update
-sudo apt-get install -y puppet-agent
+sudo apt-get install -y puppet-agent s3cmd
 rm /tmp/puppetlabs-release-pc1-wheezy.deb
+
+# Get EC2 metadata
 curl http://169.254.169.254/latest/dynamic/instance-identity/document > /root/instance_metadata.json
+
+# Install required gems
+gem install bundle
+cd /etc/puppetlabs/puppet
+3cmd get --region eu-west-2 s3://locp-puppet/Gemfiles/<%= @environment %>/<%= @role %>/Gemfile Gemfile
+bundle install
+
+# Install Puppet modules
+3cmd get --region eu-west-2 s3://locp-puppet/Puppetfiles/<%= @environment %>/<%= @role %>/Puppetfile Puppetfile
+librarian-puppet install
