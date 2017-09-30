@@ -23,13 +23,13 @@ s3cmd get --region eu-west-2 s3://locp-puppet/Gemfiles/<%= @environment %>/<%= @
 bundle install
 
 # Configure Git
-echo "[credential]" > /root/.gitconfig
-echo "  helper = !aws --region eu-west-2 codecommit credential-helper $@" >> /root/.gitconfig
-echo "  UseHttpPath = true" >> /root/.gitconfig
+echo '[credential]' > /root/.gitconfig
+echo '  helper = !aws --region eu-west-2 codecommit credential-helper $@' >> /root/.gitconfig
+echo '  UseHttpPath = true' >> /root/.gitconfig
 
 # Install Puppet modules
 s3cmd get --region eu-west-2 s3://locp-puppet/Puppetfiles/<%= @environment %>/<%= @role %>/Puppetfile Puppetfile
-HOME=/root PWD=/etc/puppetlabs/puppet librarian-puppet install --version
+HOME=/root PWD=/etc/puppetlabs/puppet librarian-puppet install --verbose
 _EOF
 
 /bin/bash /root/user_data.sh > /var/log/user_data.sh 2>&1
