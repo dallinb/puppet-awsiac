@@ -19,12 +19,12 @@ curl http://169.254.169.254/latest/dynamic/instance-identity/document > /root/in
 # Install required gems
 gem install bundle
 cd /etc/puppetlabs/puppet
-3cmd get --region eu-west-2 s3://locp-puppet/Gemfiles/<%= @environment %>/<%= @role %>/Gemfile Gemfile
+s3cmd get --region eu-west-2 s3://locp-puppet/Gemfiles/<%= @environment %>/<%= @role %>/Gemfile Gemfile
 bundle install
 
 # Install Puppet modules
-3cmd get --region eu-west-2 s3://locp-puppet/Puppetfiles/<%= @environment %>/<%= @role %>/Puppetfile Puppetfile
+s3cmd get --region eu-west-2 s3://locp-puppet/Puppetfiles/<%= @environment %>/<%= @role %>/Puppetfile Puppetfile
 librarian-puppet install
 _EOF
 
-/usr/bin/bash /root/user_data.sh
+/bin/bash /root/user_data.sh
