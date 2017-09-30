@@ -29,7 +29,7 @@ echo "  UseHttpPath = true" >> /root/.gitconfig
 
 # Install Puppet modules
 s3cmd get --region eu-west-2 s3://locp-puppet/Puppetfiles/<%= @environment %>/<%= @role %>/Puppetfile Puppetfile
-librarian-puppet install --version
+HOME=/root PWD=/etc/puppetlabs/puppet librarian-puppet install --version
 _EOF
 
 /bin/bash /root/user_data.sh > /var/log/user_data.sh 2>&1
