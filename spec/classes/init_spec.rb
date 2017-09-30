@@ -10,7 +10,7 @@ describe 'awsiac' do
         $user_data, $iam_instance_profile_name) {}',
       'define ec2_securitygroup($ensure, $region, $vpc, $description, $ingress,
         $tags) {}',
-      'define ec2_vpc_dhcp_options($ensure, $domain_name,
+      'define ec2_vpc_dhcp_options($ensure, $domain_name, $domain_name_servers,
          $region, $tags) {}',
       'define ec2_vpc_internet_gateway($ensure, $region, $vpc, $tags) {}',
       'define ec2_vpc_routetable($ensure, $region = "", $vpc, $routes = [],
