@@ -1,4 +1,6 @@
 #!/bin/bash
+
+cat > /root/user_data.sh << _EOF
 export PATH=/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:$PATH
 
 # Install Puppet
@@ -23,3 +25,6 @@ bundle install
 # Install Puppet modules
 3cmd get --region eu-west-2 s3://locp-puppet/Puppetfiles/<%= @environment %>/<%= @role %>/Puppetfile Puppetfile
 librarian-puppet install
+_EOF
+
+/usr/bin/bash /root/user_data.sh
