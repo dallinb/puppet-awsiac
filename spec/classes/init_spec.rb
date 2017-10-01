@@ -4,7 +4,7 @@ describe 'awsiac' do
     [
       'class aws () {}',
       'define ec2_vpc ($ensure, $dhcp_options=nil, $region, $cidr_block,
-        $tags) {}',
+        $tags, $enable_dns_hostnames) {}',
       'define ec2_instance($ensure, $region, $availability_zone, $image_id,
         $instance_type, $key_name, $subnet, $security_groups, $tags,
         $user_data, $iam_instance_profile_name) {}',

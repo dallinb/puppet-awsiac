@@ -23,6 +23,7 @@ class awsiac (
 
   case $region {
       'eu-west-1': { $az_list = ['a', 'b', 'c'] }
+      'eu-west-2': { $az_list = ['a', 'b'] }
       default: {
         $az_list = ['a', 'b']
         warning("Assuming that region ${region} has 2 AZs.")
@@ -82,11 +83,12 @@ class awsiac (
       tags                => $tags,
     }
     ec2_vpc { $vpc:
-      ensure       => $ensure,
-      cidr_block   => $cidr_block,
-      dhcp_options => "${vpc}-dopt",
-      region       => $region,
-      tags         => $tags,
+      ensure               => $ensure,
+      enable_dns_hostnames => false,
+      cidr_block           => $cidr_block,
+      dhcp_options         => "${vpc}-dopt",
+      region               => $region,
+      tags                 => $tags,
     }
   } else {
     ec2_vpc { $vpc:
