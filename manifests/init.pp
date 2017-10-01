@@ -198,9 +198,9 @@ class awsiac (
   $instances.keys().each | String $role | {
     range('1', $instances[$role]['number_of_instances']).each | Integer $n | {
       if $zone {
-        $instance_name = "${vpc}-${role}${n}.${zone}"
+        $instance_name = downcase("${vpc}-${role}${n}.${zone}")
       } else {
-        $instance_name = "${vpc}-${role}${n}"
+        $instance_name = downcase("${vpc}-${role}${n}")
       }
 
       if $ensure == 'absent' {
@@ -210,7 +210,7 @@ class awsiac (
       }
 
       if $instance_ensure == 'absent' {
-        route53_a_record { downcase("${instance_name}."):
+        route53_a_record { "${instance_name}.":
           ensure => 'absent',
         }
       }

@@ -148,7 +148,7 @@ describe 'awsiac' do
     }
 
     it {
-      should contain_ec2_instance('TESTEUW2-www1.locp.co.uk').with(
+      should contain_ec2_instance('testeuw2-www1.locp.co.uk').with(
         ensure: 'present',
         region: 'eu-west-2',
         availability_zone: 'eu-west-2a',
@@ -164,7 +164,7 @@ describe 'awsiac' do
           'role'        => 'www'
         }
       )
-      should contain_ec2_instance('TESTEUW2-www2.locp.co.uk').with(
+      should contain_ec2_instance('testeuw2-www2.locp.co.uk').with(
         ensure: 'present',
         region: 'eu-west-2',
         availability_zone: 'eu-west-2b',
@@ -180,7 +180,7 @@ describe 'awsiac' do
           'role'        => 'www'
         }
       )
-      should contain_ec2_instance('TESTEUW2-www3.locp.co.uk').with(
+      should contain_ec2_instance('testeuw2-www3.locp.co.uk').with(
         ensure: 'present',
         region: 'eu-west-2',
         availability_zone: 'eu-west-2a',
@@ -238,7 +238,7 @@ describe 'awsiac' do
     }
 
     it {
-      should contain_ec2_instance('TESTEUW1-www1.locp.co.uk').with(
+      should contain_ec2_instance('testeuw1-www1.locp.co.uk').with(
         ensure: 'present',
         region: 'eu-west-1',
         availability_zone: 'eu-west-1a',
@@ -254,7 +254,7 @@ describe 'awsiac' do
           'role'        => 'www'
         }
       )
-      should contain_ec2_instance('TESTEUW1-www2.locp.co.uk').with(
+      should contain_ec2_instance('testeuw1-www2.locp.co.uk').with(
         ensure: 'present',
         region: 'eu-west-1',
         availability_zone: 'eu-west-1b',
@@ -270,7 +270,7 @@ describe 'awsiac' do
           'role'        => 'www'
         }
       )
-      should contain_ec2_instance('TESTEUW1-www3.locp.co.uk').with(
+      should contain_ec2_instance('testeuw1-www3.locp.co.uk').with(
         ensure: 'present',
         region: 'eu-west-1',
         availability_zone: 'eu-west-1c',
