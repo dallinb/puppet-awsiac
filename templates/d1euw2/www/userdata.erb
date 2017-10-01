@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cat > /root/user_data.sh << _EOF
+AWS_REGION='eu-west-2'
 export PATH=/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:$PATH
 
 # Install Puppet
@@ -19,17 +20,20 @@ curl http://169.254.169.254/latest/dynamic/instance-identity/document > /root/in
 # Install required gems
 gem install bundle
 cd /etc/puppetlabs/puppet
-s3cmd get --region eu-west-2 s3://locp-puppet/Gemfiles/<%= @environment %>/<%= @role %>/Gemfile Gemfile
+s3cmd get --region $AWS_REGION s3://locp-puppet/Gemfiles/<%= @environment %>/<%= @role %>/Gemfile
 bundle install
 
 # Configure Git
 echo '[credential]' > /root/.gitconfig
-echo '  helper = !aws --region eu-west-2 codecommit credential-helper \$@' >> /root/.gitconfig
+echo '  helper = !aws --region $AWS_REGION codecommit credential-helper \$@' >> /root/.gitconfig
 echo '  UseHttpPath = true' >> /root/.gitconfig
 
 # Install Puppet modules
-s3cmd get --region eu-west-2 s3://locp-puppet/Puppetfiles/<%= @environment %>/<%= @role %>/Puppetfile Puppetfile
-HOME=/root PWD=/etc/puppetlabs/puppet librarian-puppet install --verbose
+s3cmd get --region $AWS_REGION s3://locp-puppet/Puppetfiles/<%= @environment %>/<%= @role %>/Puppetfile
+HOME=/root PWD=/etc/puppetlabs/puppet librarian-puppet install --path=/etc/puppetlabs/code/modules
+
+# Create a Route53 A record for this instance
+puppet resource route53_a_record ensure=present ttl=3600 values=$( hostname -s ) zone='locp.co.uk.'
 _EOF
 
 /bin/bash /root/user_data.sh > /var/log/user_data.sh 2>&1
