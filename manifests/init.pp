@@ -10,6 +10,7 @@ class awsiac (
   ){
   # Reverse the default resource ordering if the resources are to be 'absent'.
   if $ensure == 'absent' {
+    Route53_a_record <| |> -> Ec2_instance <| |>
     Ec2_instance <| |> -> Ec2_securitygroup <| |>
     Ec2_instance <| |> -> Ec2_vpc_subnet <| |>
     Ec2_securitygroup <| |> -> Ec2_vpc <| |>
