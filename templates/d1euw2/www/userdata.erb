@@ -32,7 +32,7 @@ s3cmd get --region $AWS_REGION s3://locp-puppet/Puppetfiles/<%= @environment %>/
 HOME=/root PWD=/etc/puppetlabs/puppet librarian-puppet install --path=/etc/puppetlabs/code/modules
 
 # Create a Route53 A record for this instance
-puppet resource route53_a_record ensure=present ttl=3600 values=$( hostname -s ) zone='locp.co.uk.'
+puppet resource route53_a_record ensure=present ttl=3600 values='<%= @instance_name %>.' zone='locp.co.uk.'
 _EOF
 
 /bin/bash /root/user_data.sh > /var/log/user_data.sh 2>&1
