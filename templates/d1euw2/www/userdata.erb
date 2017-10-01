@@ -2,7 +2,7 @@
 export AWS_REGION='eu-west-2'
 export PATH=/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:$PATH
 
-cat > /root/user_data.sh << _EOF
+cat > /root/user_data.sh << _USERDATA
 # Install Puppet
 cd /tmp
 echo "<%= @instance_name %>" > /etc/hostname
@@ -31,8 +31,10 @@ echo '  UseHttpPath = true' >> /root/.gitconfig
 s3cmd get --region $AWS_REGION s3://locp-puppet/Puppetfiles/<%= @environment %>/<%= @role %>/Puppetfile Puppetfile
 HOME=/root PWD=/etc/puppetlabs/puppet librarian-puppet install --path=/etc/puppetlabs/code/modules
 
-# Create a Route53 A record for this instance
-puppet resource route53_a_record ensure=present ttl=3600 values='<%= @instance_name %>.' zone='locp.co.uk.'
-_EOF
+# Get and run manifest
+s3cmd get --region $AWS_REGION s3://locp-puppet/manifests/<%= @environment %>/<%= @role %>/site.pp \
+  /etc/puppetlabs/code/environments/production/manifests/site.pp
+puppet /etc/puppetlabs/code/environments/production/manifests/site.pp --test
+_USERDATA
 
 /bin/bash /root/user_data.sh > /var/log/user_data.sh 2>&1
