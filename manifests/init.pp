@@ -214,10 +214,11 @@ class awsiac (
         $ip = generate('/bin/bash', '-c', 'host d1euw2-www1.locp.co.uk. | awk "{ print \$NF }"')
 
         route53_a_record { "${instance_name}.":
-          ensure => absent,
-          ttl    => '3600',
-          values => [ $ip ],
-          zone   => "${zone}.",
+          ensure  => absent,
+          ttl     => '3600',
+          values  => [ $ip ],
+          zone    => "${zone}.",
+          require => Ec2_instance[$instance_name],
         }
       }
 
