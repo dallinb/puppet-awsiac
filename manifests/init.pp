@@ -213,6 +213,7 @@ class awsiac (
         route53_a_record { "${instance_name}.":
           ensure => absent,
           ttl    => '3600',
+          zone   => "${zone}.",
         }
       }
 
