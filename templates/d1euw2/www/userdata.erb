@@ -1,9 +1,8 @@
 #!/bin/bash
-
-cat > /root/user_data.sh << _EOF
-AWS_REGION='eu-west-2'
+export AWS_REGION='eu-west-2'
 export PATH=/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:$PATH
 
+cat > /root/user_data.sh << _EOF
 # Install Puppet
 cd /tmp
 echo "<%= @instance_name %>" > /etc/hostname
