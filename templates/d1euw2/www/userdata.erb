@@ -20,7 +20,7 @@ curl http://169.254.169.254/latest/dynamic/instance-identity/document > /root/in
 # Install required gems
 gem install bundle
 cd /etc/puppetlabs/puppet
-s3cmd get --region $AWS_REGION s3://locp-puppet/Gemfiles/<%= @environment %>/<%= @role %>/Gemfile
+s3cmd get --region $AWS_REGION s3://locp-puppet/Gemfiles/<%= @environment %>/<%= @role %>/Gemfile Gemfile
 bundle install
 
 # Configure Git
@@ -29,7 +29,7 @@ echo '  helper = !aws --region $AWS_REGION codecommit credential-helper \$@' >> 
 echo '  UseHttpPath = true' >> /root/.gitconfig
 
 # Install Puppet modules
-s3cmd get --region $AWS_REGION s3://locp-puppet/Puppetfiles/<%= @environment %>/<%= @role %>/Puppetfile
+s3cmd get --region $AWS_REGION s3://locp-puppet/Puppetfiles/<%= @environment %>/<%= @role %>/Puppetfile Puppetfile
 HOME=/root PWD=/etc/puppetlabs/puppet librarian-puppet install --path=/etc/puppetlabs/code/modules
 
 # Create a Route53 A record for this instance
