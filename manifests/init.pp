@@ -209,6 +209,12 @@ class awsiac (
         $instance_ensure = $instances[$role]['ensure']
       }
 
+      if $instance_ensure == 'absent' {
+        route53_a_record { "${instance_name}.":
+          ensure => 'absent',
+        }
+      }
+
       ec2_instance { $instance_name:
         ensure                    => $instance_ensure,
         region                    => $region,
