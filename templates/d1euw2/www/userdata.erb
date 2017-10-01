@@ -34,7 +34,7 @@ HOME=/root PWD=/etc/puppetlabs/puppet librarian-puppet install --path=/etc/puppe
 # Get and run manifest
 s3cmd get --region $AWS_REGION s3://locp-puppet/manifests/<%= @environment %>/<%= @role %>/site.pp \
   /etc/puppetlabs/code/environments/production/manifests/site.pp
-puppet /etc/puppetlabs/code/environments/production/manifests/site.pp --test
+puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp --test
 _USERDATA
 
 /bin/bash /root/user_data.sh > /var/log/user_data.sh 2>&1
