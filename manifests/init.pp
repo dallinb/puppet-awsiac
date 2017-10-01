@@ -212,6 +212,7 @@ class awsiac (
       if $instance_ensure == 'absent' {
         route53_a_record { "${instance_name}.":
           ensure => 'absent',
+          zone   => "${zone}.",
         }
       }
 
