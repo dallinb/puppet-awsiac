@@ -247,6 +247,11 @@ Outputs:
     Value: !Sub "${AWS::Region}a,${AWS::Region}b"
     Export:
       Name: !Sub "${AWS::StackName}-az-list"
+  Environment:
+    Description: The name of the environment that this stack is for
+    Value: !Ref Environment
+    Export:
+      Name: !Sub "${AWS::StackName}-environment"
   PrivateSubnets:
     Description: A csv list of the private subnets
     Value:
