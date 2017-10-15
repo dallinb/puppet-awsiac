@@ -1,0 +1,266 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: "Create a VPC and it's core infrastucture"
+
+Parameters:
+  ClassA:
+    AllowedValues:
+      - 10
+      - 172
+      - 192
+    Default: 10
+    Description: The class A network for the VPC
+    Type: String
+  ClassB:
+    Description: The class B network for the VPC
+    MaxValue: 255
+    MinValue: 0
+    Type: Number
+  DomainName:
+    Description: The Route53 HostedZone Name
+    Type: String
+  Environment:
+    Description: |
+      An environment name that this stack is associated with (e.g
+      development, test or production)
+    Type: String
+  Version:
+    Default: 0.1.0
+    Description: A version string to associate with this stack
+    Type: String
+Resources:
+  DhcpOptions:
+    Type: "AWS::EC2::DHCPOptions"
+    Properties:
+      DomainName: !Ref DomainName
+      DomainNameServers:
+        - AmazonProvidedDNS
+      Tags:
+        -
+          Key: 'Environment'
+          Value:
+            Ref: Environment
+        -
+          Key: 'Name'
+          Value:
+            Fn::Sub:
+              - "${Environment}-dopt"
+              - { Environment: !Ref Environment }
+        -
+          Key: 'Stack version'
+          Value:
+            Ref: Version
+  Vpc:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      CidrBlock:
+        Fn::Sub:
+          - "${ClassA}.${ClassB}.0.0/16"
+          - { ClassA: !Ref ClassA, ClassB: !Ref ClassB }
+      EnableDnsHostnames: false
+      Tags:
+        -
+          Key: 'Environment'
+          Value:
+            Ref: Environment
+        -
+          Key: 'Name'
+          Value: !Ref Environment
+        -
+          Key: 'Stack version'
+          Value:
+            Ref: Version
+  AssociateVPC:
+    Type: "AWS::EC2::VPCDHCPOptionsAssociation"
+    Properties:
+      DhcpOptionsId: !Ref DhcpOptions
+      VpcId: !Ref Vpc
+  InternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+    Properties:
+      Tags:
+        -
+          Key: 'Environment'
+          Value:
+            Ref: Environment
+        -
+          Key: 'Name'
+          Value:
+            Fn::Sub:
+              - "${Environment}-igw"
+              - { Environment: !Ref Environment }
+        -
+          Key: 'Stack version'
+          Value:
+            Ref: Version
+  VPCGatewayAttachment:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref InternetGateway
+  RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        -
+          Key: 'Environment'
+          Value:
+            Ref: Environment
+        -
+          Key: 'Name'
+          Value:
+            Fn::Sub:
+              - "${Environment}-rtb"
+              - { Environment: !Ref Environment }
+        -
+          Key: 'Stack version'
+          Value:
+            Ref: Version
+  Route:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGateway
+    Properties:
+      RouteTableId: !Ref RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: InternetGateway
+  PublicSubnetZoneA:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: !Sub "${AWS::Region}a"
+      CidrBlock:
+        Fn::Sub:
+          - "${ClassA}.${ClassB}.0.0/18"
+          - { ClassA: !Ref ClassA, ClassB: !Ref ClassB }
+      MapPublicIpOnLaunch: true
+      Tags:
+        -
+          Key: 'Environment'
+          Value:
+            Ref: Environment
+        -
+          Key: 'Name'
+          Value:
+            Fn::Sub:
+              - "${Environment}-public-zone-a"
+              - { Environment: !Ref Environment }
+        -
+          Key: 'Stack version'
+          Value:
+            Ref: Version
+      VpcId: !Ref Vpc
+  PublicSubnetZoneARouteAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref PublicSubnetZoneA
+      RouteTableId: !Ref RouteTable
+  PublicSubnetZoneB:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: !Sub "${AWS::Region}b"
+      CidrBlock:
+        Fn::Sub:
+          - "${ClassA}.${ClassB}.64.0/18"
+          - { ClassA: !Ref ClassA, ClassB: !Ref ClassB }
+      MapPublicIpOnLaunch: true
+      Tags:
+        -
+          Key: 'Environment'
+          Value:
+            Ref: Environment
+        -
+          Key: 'Name'
+          Value:
+            Fn::Sub:
+              - "${Environment}-public-zone-b"
+              - { Environment: !Ref Environment }
+        -
+          Key: 'Stack version'
+          Value:
+            Ref: Version
+      VpcId: !Ref Vpc
+  PublicSubnetZoneBRouteAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref PublicSubnetZoneB
+      RouteTableId: !Ref RouteTable
+  PrivateSubnetZoneA:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: !Sub "${AWS::Region}a"
+      CidrBlock:
+        Fn::Sub:
+          - "${ClassA}.${ClassB}.128.0/18"
+          - { ClassA: !Ref ClassA, ClassB: !Ref ClassB }
+      MapPublicIpOnLaunch: false
+      Tags:
+        -
+          Key: 'Environment'
+          Value:
+            Ref: Environment
+        -
+          Key: 'Name'
+          Value:
+            Fn::Sub:
+              - "${Environment}-private-zone-a"
+              - { Environment: !Ref Environment }
+        -
+          Key: 'Stack version'
+          Value:
+            Ref: Version
+      VpcId: !Ref Vpc
+  PrivateSubnetZoneB:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: !Sub "${AWS::Region}b"
+      CidrBlock:
+        Fn::Sub:
+          - "${ClassA}.${ClassB}.192.0/18"
+          - { ClassA: !Ref ClassA, ClassB: !Ref ClassB }
+      MapPublicIpOnLaunch: false
+      Tags:
+        -
+          Key: 'Environment'
+          Value:
+            Ref: Environment
+        -
+          Key: 'Name'
+          Value:
+            Fn::Sub:
+              - "${Environment}-private-zone-b"
+              - { Environment: !Ref Environment }
+        -
+          Key: 'Stack version'
+          Value:
+            Ref: Version
+      VpcId: !Ref Vpc
+
+Outputs:
+  AzCount:
+    Description: The number availability zones used in this stack
+    Value: 2
+    Export:
+      Name: !Sub "${AWS::StackName}-az-count"
+  AzList:
+    Description: A list of the availability zones used in this stack
+    Value: !Sub "${AWS::Region}a,${AWS::Region}b"
+    Export:
+      Name: !Sub "${AWS::StackName}-az-list"
+  PrivateSubnets:
+    Description: A csv list of the private subnets
+    Value:
+      Fn::Join: [',', [!Ref PrivateSubnetZoneA, !Ref PrivateSubnetZoneB ]]
+    Export:
+      Name: !Sub "${AWS::StackName}-private-subnets"
+  PublicSubnets:
+    Description: A csv list of the public subnets
+    Value:
+      Fn::Join: [',', [!Ref PublicSubnetZoneA, !Ref PublicSubnetZoneB ]]
+    Export:
+      Name: !Sub "${AWS::StackName}-public-subnets"
+  Vpc:
+    Description: The ID of the VPC created
+    Value: !Ref Vpc
+    Export:
+      Name: !Sub "${AWS::StackName}-vpc"
