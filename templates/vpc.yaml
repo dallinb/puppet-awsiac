@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: "Create a VPC and it's core infrastucture"
+
+Parameters:
+  ClassA:
+    AllowedValues:
+      - 10
+      - 172
+      - 192
+    Default: 10
+    Description: The class A network for the VPC
+    Type: String
+  ClassB:
+    Description: The class B network for the VPC
+    MaxValue: 255
+    MinValue: 0
+    Type: Number
+  DomainName:
+    Description: The Route53 HostedZone Name
+    Type: String
+  Environment:
+    Description: |
+      An environment name that this stack is associated with (e.g
+      development, test or production)
+    Type: String
+  Version:
+    Default: 0.1.0
+    Description: A version string to associate with this stack
+    Type: String
+# Mappings:
+#   RegionMap:
+#     eu-west-1:
+#       AZCount: "3"
+#     eu-west-2:
+#       AZCount: "2"
+Resources:
+  DhcpOptions:
+    Type: "AWS::EC2::DHCPOptions"
+    Properties:
+      DomainName: !Ref DomainName
+      DomainNameServers:
+        - AmazonProvidedDNS
+      Tags:
+        -
+          Key: 'Environment'
+          Value:
+            Ref: Environment
+        -
+          Key: 'Name'
+          Value:
+            Fn::Sub:
+              - "${Environment}-dopt"
+              - { Environment: !Ref Environment }
+        -
+          Key: 'Stack version'
+          Value:
+            Ref: Version
+  Vpc:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      CidrBlock:
+        Fn::Sub:
+          - "${ClassA}.${ClassB}.0.0/16"
+          - { ClassA: !Ref ClassA, ClassB: !Ref ClassB }
+      EnableDnsHostnames: false
+      Tags:
+        -
+          Key: 'Environment'
+          Value:
+            Ref: Environment
+        -
+          Key: 'Name'
+          Value: !Ref Environment
+        -
+          Key: 'Stack version'
+          Value:
+            Ref: Version
+  AssociateVPC:
+    Type: "AWS::EC2::VPCDHCPOptionsAssociation"
+    Properties:
+      DhcpOptionsId: !Ref DhcpOptions
+      VpcId: !Ref Vpc
+
+Outputs:
+  Vpc:
+    Description: The ID of the VPC created
+    Value: !Ref Vpc
+    Export:
+      Name: !Sub "${AWS::StackName}-vpc"
